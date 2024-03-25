@@ -1,0 +1,1 @@
+CREATE TABLE `webdev_db`.`users` ( `id` INT NOT NULL AUTO_INCREMENT , `username` VARCHAR(20) NOT NULL COMMENT 'tên đăng nhập' , `password` VARCHAR(20) NOT NULL COMMENT 'mật khẩu' , `full_name` VARCHAR(50) NOT NULL COMMENT 'tên đầy đủ' , `level` INT NOT NULL DEFAULT '0' COMMENT 'quyền' , PRIMARY KEY (`id`)) ENGINE = InnoDB;
