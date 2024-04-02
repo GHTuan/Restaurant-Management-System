@@ -1,5 +1,4 @@
 <?php
-
 class Database
 {
 	public $conn = NULL;
@@ -8,7 +7,7 @@ class Database
 	private $user = 'root';
 	private $password = '';
         
-        // Hàm kết nối CSDL
+    // Hàm kết nối CSDL
 	public function connect()
 	{
 		$this->conn = new mysqli($this->server, $this->user, $this->password, $this->dbName);
