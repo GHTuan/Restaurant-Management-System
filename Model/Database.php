@@ -1,25 +1,26 @@
 <?php
 class Database
 {
-	public $conn = NULL;
-	private $server = 'localhost';
-	private $dbName = 'webdev_db';
-	private $user = 'root';
-	private $password = '';
+    private $server = 'localhost';
+    private $dbName = 'restaurant';
+    private $user = 'root';
+    private $password = '';
         
     // Hàm kết nối CSDL
 	public function connect()
 	{
-		$this->conn = new mysqli($this->server, $this->user, $this->password, $this->dbName);
+		$conn = new mysqli($this->server, $this->user, $this->password, $this->dbName);
 
-		if ($this->conn->connect_error) {
-			printf($this->conn->connect_error);
+		mysqli_set_charset($conn, 'utf8');
+
+		if ($conn->connect_error) {
+			printf($conn->connect_error);
 			exit();
 		}
-		$this->conn->set_charset("utf8");
+		return $conn;
 	}
         // Hàm đóng kết nối CSDL
-        public function closeDatabase()
+    public function closeDatabase($conn)
 	{
 		if ($this->conn) {
 			$this->conn->close();

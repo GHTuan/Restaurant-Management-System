@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<script src="https://kit.fontawesome.com/20b9485268.js" crossorigin="anonymous"></script>
+
 <body>
     <nav class="navbar navbar-expand-lg sticky-top d-flex flex-row-reverse" style="
       padding: 0;
@@ -43,7 +43,7 @@
           </form>
         </ul>
       </div>
-      <a class="nav-link active" aria-current="page" href="index.php" style="margin-right: 10px;">Login <i class="fa-solid fa-user-tie"></i></a>
+      <a class="nav-link active" aria-current="page" href="index.php?controller=login" style="margin-right: 10px;">Login <i class="fa-solid fa-user-tie"></i></a>
     </div>
   </nav>
 </body>
