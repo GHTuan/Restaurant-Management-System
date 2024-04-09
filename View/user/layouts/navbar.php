@@ -6,8 +6,14 @@
     #homepage-navbar li:hover{
       background-color: pink;
       border-radius: 5px;
+      padding-left: 10px;
     }
-    #homepage-login li:hover{
+    #homepage-login div{
+      height: 100%;
+      box-sizing: border-box;
+      padding: 6px;
+    }
+    #homepage-login div:hover{
       background-color: aquamarine;
       border-radius: 5px;
     }
@@ -36,28 +42,28 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="homepage-navbar">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="index.php?controller=home">Home <i class="fa-solid fa-house"></i></a>
+            <a class="nav-link active" aria-current="page" href="index.php?controller=home"><i class="fa-solid fa-house"></i> Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="index.php?controller=menu">Menu <i class="fa-solid fa-utensils"></i></a>
+            <a class="nav-link active" aria-current="page" href="index.php?controller=menu"><i class="fa-solid fa-utensils"></i> Menu</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="index.php?controller=menu">Cart <i class="fa-solid fa-cart-shopping"></i></a>
+            <a class="nav-link active" aria-current="page" href="index.php?controller=menu"><i class="fa-solid fa-cart-shopping"></i> Cart</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="index.php?controller=menu">Setting <i class="fa-solid fa-gear"></i></a>
+            <a class="nav-link active" aria-current="page" href="index.php?controller=menu"><i class="fa-solid fa-gear"></i> Setting</a>
           </li>
 
         </ul>
       </div>
-      <ul class="navbar-nav mb-2 mb-lg-0" id="homepage-login">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="index.php?controller=login" style="margin-right: 10px;">Login <i class="fa-solid fa-user-tie"></i></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="View/admin/">To Admin <i class="fa-solid fa-lock"></i></a>
-        </li>
-      </ul>
+      <div id="homepage-login" class="d-flex p-0">
+        <div>
+          <a class="nav-link active" aria-current="page" href="index.php?controller=login" style="margin-right: 10px;"><i class="fa-solid fa-user-tie"></i> Login</a>
+        </div>
+        <div>
+          <a class="nav-link active" href="View/admin/"><i class="fa-solid fa-lock"></i> To Admin</a>
+        </div>
+      </div>
     </div>
   </nav>
 </body>
