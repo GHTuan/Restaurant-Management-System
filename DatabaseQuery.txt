@@ -1,5 +1,5 @@
 CREATE TABLE member (
-    UserID int PRIMARY KEY,	
+    UserID int PRIMARY KEY AUTO_INCREMENT,	
     Username varchar(255),
     Password varchar(255),
     Name varchar(255),
@@ -10,17 +10,19 @@ CREATE TABLE member (
 
 
 CREATE TABLE cart (
-    CartID int PRIMARY KEY,
+    CartID int PRIMARY KEY AUTO_INCREMENT,
     ExportDate date,
     UserID int
 );
 
 CREATE TABLE product (
-    ProductID int PRIMARY KEY,
+    ProductID int PRIMARY KEY AUTO_INCREMENT,
     Name varchar(255),
     Price varchar(255),
     Description varchar(5000),
-    Type varchar(255)
+    Type varchar(255),
+    Picture varchar(500)
+	
 );
 
 CREATE TABLE cartitem (
@@ -31,7 +33,7 @@ CREATE TABLE cartitem (
 );
 
 CREATE TABLE comment(
-    CommentID int PRIMARY KEY,
+    CommentID int PRIMARY KEY AUTO_INCREMENT,
     Time date,
     data varchar(5000),
     UserID int,
@@ -39,7 +41,7 @@ CREATE TABLE comment(
 );
 
 CREATE TABLE admin(
-    AdminID int PRIMARY KEY,
+    AdminID int PRIMARY KEY AUTO_INCREMENT,
     Name varchar(256),
     password varchar(256),
     Avatar varchar(500)
@@ -141,4 +143,9 @@ ALTER TABLE comment
 ADD CONSTRAINT fk_product_comment
 FOREIGN KEY (ProductID) REFERENCES product(ProductID)
 ON DELETE SET NULL;
+
+ALTER TABLE member AUTO_INCREMENT=100;
+ALTER TABLE cart AUTO_INCREMENT=100;
+ALTER TABLE product AUTO_INCREMENT=100;
+ALTER TABLE admin AUTO_INCREMENT=100;
 

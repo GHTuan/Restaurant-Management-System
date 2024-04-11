@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th4 05, 2024 lúc 04:52 PM
+-- Thời gian đã tạo: Th4 11, 2024 lúc 04:39 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -166,17 +166,18 @@ CREATE TABLE `product` (
   `Name` varchar(255) DEFAULT NULL,
   `Price` varchar(255) DEFAULT NULL,
   `Description` varchar(5000) DEFAULT NULL,
-  `Type` varchar(255) DEFAULT NULL
+  `Type` varchar(255) DEFAULT NULL,
+  `Picture` varchar(500) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `product`
 --
 
-INSERT INTO `product` (`ProductID`, `Name`, `Price`, `Description`, `Type`) VALUES
-(1, 'Pizza', '12.99', 'Delicious pepperoni pizza with mozzarella cheese and tomato sauce.', 'Food'),
-(2, 'Burger', '9.99', 'Classic beef burger with lettuce, tomato, onion, and cheese.', 'Food'),
-(3, 'Cola', '1.99', 'Test có dấu', 'Drink');
+INSERT INTO `product` (`ProductID`, `Name`, `Price`, `Description`, `Type`, `Picture`) VALUES
+(1, 'Pizza', '12.99', 'Delicious pepperoni pizza with mozzarella cheese and tomato sauce.', 'Food', NULL),
+(2, 'Burger', '9.99', 'Classic beef burger with lettuce, tomato, onion, and cheese.', 'Food', NULL),
+(3, 'Cola', '1.99', 'Test có dấu', 'Drink', NULL);
 
 -- --------------------------------------------------------
 
@@ -253,6 +254,40 @@ ALTER TABLE `product`
 --
 ALTER TABLE `restaurantinfo`
   ADD PRIMARY KEY (`ID`);
+
+--
+-- AUTO_INCREMENT cho các bảng đã đổ
+--
+
+--
+-- AUTO_INCREMENT cho bảng `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `AdminID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+
+--
+-- AUTO_INCREMENT cho bảng `cart`
+--
+ALTER TABLE `cart`
+  MODIFY `CartID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+
+--
+-- AUTO_INCREMENT cho bảng `comment`
+--
+ALTER TABLE `comment`
+  MODIFY `CommentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT cho bảng `member`
+--
+ALTER TABLE `member`
+  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+
+--
+-- AUTO_INCREMENT cho bảng `product`
+--
+ALTER TABLE `product`
+  MODIFY `ProductID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 
 --
 -- Các ràng buộc cho các bảng đã đổ

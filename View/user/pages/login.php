@@ -53,10 +53,16 @@
         }
     </style>
 </head>
+<?php
+    require ('View/user/layouts/navbar.php'); 
+?>
 <body>
     <?php
         if ($error){
             echo($error);
+        }
+        if ($success){
+            echo($success);
         }
     ?>
     <div class="login-container">
