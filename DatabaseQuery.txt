@@ -1,1 +1,151 @@
-CREATE TABLE `webdev_db`.`users` ( `id` INT NOT NULL AUTO_INCREMENT , `username` VARCHAR(20) NOT NULL COMMENT 'tên đăng nhập' , `password` VARCHAR(20) NOT NULL COMMENT 'mật khẩu' , `full_name` VARCHAR(50) NOT NULL COMMENT 'tên đầy đủ' , `level` INT NOT NULL DEFAULT '0' COMMENT 'quyền' , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+CREATE TABLE member (
+    UserID int PRIMARY KEY AUTO_INCREMENT,	
+    Username varchar(255),
+    Password varchar(255),
+    Name varchar(255),
+    Phoneno varchar(255),
+    Avatar varchar(500),
+    AccessLevel int
+);
+
+
+CREATE TABLE cart (
+    CartID int PRIMARY KEY AUTO_INCREMENT,
+    ExportDate date,
+    UserID int
+);
+
+CREATE TABLE product (
+    ProductID int PRIMARY KEY AUTO_INCREMENT,
+    Name varchar(255),
+    Price varchar(255),
+    Description varchar(5000),
+    Type varchar(255),
+    Picture varchar(500)
+	
+);
+
+CREATE TABLE cartitem (
+    ProductID int,
+    CartID int,
+    Amount int,
+    PRIMARY KEY(ProductID,CartID)
+);
+
+CREATE TABLE comment(
+    CommentID int PRIMARY KEY AUTO_INCREMENT,
+    Time date,
+    data varchar(5000),
+    UserID int,
+    ProductID int
+);
+
+CREATE TABLE admin(
+    AdminID int PRIMARY KEY AUTO_INCREMENT,
+    Name varchar(256),
+    password varchar(256),
+    Avatar varchar(500)
+);
+
+CREATE TABLE restaurantinfo(
+    ID int PRIMARY KEY,
+    Location varchar(256),
+    Phone varchar(256),
+    Picture varchar(500)
+);
+
+CREATE TABLE news(
+    ID int PRIMARY KEY,
+    Header varchar(256),
+    Data varchar(500),
+    Pic varchar(500),
+    RestaurantID int
+);
+
+
+
+INSERT INTO member (UserID, Username, Password, Name, Phoneno, Avatar, AccessLevel)
+VALUES (1, 'john', '123', 'John Doe', '123-456-7890', '', 1);
+INSERT INTO member (UserID, Username, Password, Name, Phoneno, Avatar, AccessLevel)
+VALUES (2, 'smith', 'abc', 'Jane Smith', '987-654-3210', '', 1);
+INSERT INTO member (UserID, Username, Password, Name, Phoneno, Avatar, AccessLevel)
+VALUES (3, 'bob_jackson', '123', 'Bob Jackson', '555-555-5555', '', 0);
+
+INSERT INTO cart (CartID, ExportDate, UserID)
+VALUES (1, NULL, 1);
+INSERT INTO cart (CartID, ExportDate, UserID)
+VALUES (2, '2024-04-05', 2);
+INSERT INTO cart (CartID, ExportDate, UserID)
+VALUES (3, '2024-04-05', 3);
+
+INSERT INTO product (ProductID, Name, Price, Description, Type)
+VALUES (1, 'Pizza', '12.99', 'Delicious pepperoni pizza with mozzarella cheese and tomato sauce.', 'Food');
+INSERT INTO product (ProductID, Name, Price, Description, Type)
+VALUES (2, 'Burger', '9.99', 'Classic beef burger with lettuce, tomato, onion, and cheese.', 'Food');
+INSERT INTO product (ProductID, Name, Price, Description, Type)
+VALUES (3, 'Cola', '1.99', 'Test có dấu', 'Drink');
+
+INSERT INTO cartitem (ProductID, CartID, Amount)
+VALUES (1, 1, 2);
+INSERT INTO cartitem (ProductID, CartID, Amount)
+VALUES (2, 1, 1);
+INSERT INTO cartitem (ProductID, CartID, Amount)
+VALUES (3, 2, 3);
+
+INSERT INTO comment (CommentID, Time, data, UserID, ProductID)
+VALUES (1, '2024-04-05', 'This product is amazing!', 1, 1);
+INSERT INTO comment (CommentID, Time, data, UserID, ProductID)
+VALUES (2, '2024-04-05', 'Great service and fast delivery!', 2, 2);
+INSERT INTO comment (CommentID, Time, data, UserID, ProductID)
+VALUES (3, '2024-04-05', 'The quality of this item exceeded my expectations.', 3, 3);
+
+
+INSERT INTO admin (AdminID, Name, password, Avatar)
+VALUES (1, 'admin', 'admin', 'avatar1.jpg');
+INSERT INTO admin (AdminID, Name, password, Avatar)
+VALUES (2, 'Admin2', 'adminpassword2', 'avatar2.jpg');
+
+
+INSERT INTO restaurantinfo (ID, Location, Phone, Picture)
+VALUES (1, '123 Main St, City A', '123-456-7890', 'restaurant1.jpg');
+
+
+INSERT INTO news (ID, Header, Data, Pic, RestaurantID)
+VALUES (1, 'Grand Opening Event', 'Join us for the grand opening event on April 10th!', 'grand_opening.jpg', 1);
+INSERT INTO news (ID, Header, Data, Pic, RestaurantID)
+VALUES (2, 'Special Menu Addition', 'Introducing our new seasonal menu items!', 'special_menu.jpg', 2);
+INSERT INTO news (ID, Header, Data, Pic, RestaurantID)
+VALUES (3, 'Live Music Night', 'Enjoy live music every Friday evening at our restaurant!', 'live_music.jpg', 3);
+
+
+ALTER TABLE cart
+ADD CONSTRAINT fk_user_cart
+FOREIGN KEY (UserID) REFERENCES member(UserID)
+ON DELETE SET NULL;
+
+ALTER TABLE cartitem
+ADD CONSTRAINT fk_product_cartitem
+FOREIGN KEY (ProductID) REFERENCES product(ProductID)
+ON DELETE CASCADE;
+
+ALTER TABLE cartitem
+ADD CONSTRAINT fk_cart_cartitem
+FOREIGN KEY (CartID) REFERENCES cart(CartID)
+ON DELETE CASCADE;
+
+
+ALTER TABLE comment
+ADD CONSTRAINT fk_user_comment
+FOREIGN KEY (UserID) REFERENCES member(UserID)
+ON DELETE SET NULL;
+
+ALTER TABLE comment
+ADD CONSTRAINT fk_product_comment
+FOREIGN KEY (ProductID) REFERENCES product(ProductID)
+ON DELETE SET NULL;
+
+ALTER TABLE member AUTO_INCREMENT=100;
+ALTER TABLE cart AUTO_INCREMENT=100;
+ALTER TABLE product AUTO_INCREMENT=100;
+ALTER TABLE admin AUTO_INCREMENT=100;
+
