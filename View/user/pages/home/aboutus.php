@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <body>
-<div class="container">
+<div class="p-5" style="background-color: violet;">   
+
+    <div class="container">
         <h1 class="my-5 text-center">About Us</h1>
         <div class="row">
             <div class="col-md-6 d-flex align-items-center">
@@ -46,44 +48,86 @@
         </div>
     </div>
 
-    <div class="row mt-5 pt-5 mb-5 pb-5">
-    <h2 class="my-4 text-center">Our Sastified Customer</h2>
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-5">
-                    <blockquote class="blockquote text-center">
-                        <img src="View/Images/about_us_1.jpg" alt="About Us" class="img-fluid rounded-3" style="width: 300px; height: 300px">
-                        <p class="mb-0">Đồ ăn và dịch vụ tuyệt vời. Tôi cảm thấy như một khách VIP ngay từ lúc bước vào cửa. Không thể đợi để quay lại, nhưng mà tôi hết tiền rồi!</p><br>
-                        <footer class="blockquote-footer"><cite title="Nguồn">John Doe</cite></footer>
-                    </blockquote>
-                </div>
-                <div class="col-md-2"></div>
-                <div class="col-md-5">
-                    <blockquote class="blockquote text-center">
-                        <img src="View/Images/about_us_1.jpg" alt="About Us" class="img-fluid rounded-3" style="width: 300px; height: 300px">
-                        <p class="mb-0">Tôi đã đến nhiều nhà hàng, nhưng nhà hàng này nổi bật với sự chú ý đến chi tiết và cam kết với chất lượng. Tôi rất khuyên bạn nên thử nếu ai đó đang tìm kiếm một trải nghiệm ẩm thực đặc biệt thực sự.</p><br>
-                        <footer class="blockquote-footer"><cite title="Nguồn">Jane Smith</cite></footer>
-                    </blockquote>
-                </div>
+    <div class="container">
+		<h2 class="my-4 text-center">Our Sastified Customer</h2>
+        <div id="testimonialCarousel" class="carousel slide mb-10" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <!-- <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button> -->
             </div>
-            <div class="row">
-                <div class="col-md-5">
-                    <blockquote class="blockquote text-center">
-                        <img src="View/Images/about_us_2.jpg" alt="About Us" class="img-fluid rounded-3" style="width: 300px; height: 300px">
-                        <p class="mb-0">Không khí ấm áp và hấp dẫn, đồ ăn ngon vãi cả chưởng, nhân viên thân thiện và chu đáo. Tôi đã lập kế hoạch cho chuyến thăm tiếp theo của mình!</p><br>
-                        <footer class="blockquote-footer"><cite title="Nguồn">Bob Johnson</cite></footer>
-                    </blockquote>
+            <div class="carousel-inner">
+                <div class="carousel-item active" data-bs-interval="10000">
+                    <div class="row justify-content-center">
+                        <div class="col-md-3">
+                            <blockquote class="blockquote text-center">
+                                <img src="View/Images/about_us_1.jpg" alt="About Us" class="img-fluid rounded-3" style="width: 300px; height: 300px">
+                                <p class="mb-0">Đồ ăn và dịch vụ tuyệt vời. Tôi cảm thấy như một khách VIP ngay từ lúc bước vào cửa. Không thể đợi để quay lại, nhưng mà tôi hết tiền rồi!</p><br>
+                                <footer class="blockquote-footer"><cite title="Nguồn">John Doe</cite></footer>
+                            </blockquote>
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-3">
+                            <blockquote class="blockquote text-center">
+                                <img src="View/Images/about_us_1.jpg" alt="About Us" class="img-fluid rounded-3" style="width: 300px; height: 300px">
+                                <p class="mb-0">Tôi đã đến nhiều nhà hàng, nhưng nhà hàng này nổi bật với sự chú ý đến chi tiết và cam kết với chất lượng. Tôi rất khuyên bạn nên thử nếu ai đang tìm kiếm một trải nghiệm ẩm thực đặc biệt thực sự.</p><br>
+                                <footer class="blockquote-footer"><cite title="Nguồn">Jane Smith</cite></footer>
+                            </blockquote>
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-3">
+                            <blockquote class="blockquote text-center">
+                                <img src="View/Images/about_us_1.jpg" alt="About Us" class="img-fluid rounded-3" style="width: 300px; height: 300px">
+                                <p class="mb-0">Không khí ấm áp và hấp dẫn, đồ ăn ngon vãi cả chưởng, nhân viên thân thiện và chu đáo. Tôi đã lập kế hoạch cho chuyến thăm tiếp theo của mình!</p><br>
+                                <footer class="blockquote-footer"><cite title="Nguồn">John Doe</cite></footer>
+                            </blockquote>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-2"></div>
-                <div class="col-md-5">
-                    <blockquote class="blockquote text-center">
-                        <img src="View/Images/about_us_2.jpg" alt="About Us" class="img-fluid rounded-3" style="width: 300px; height: 300px">
-                        <p class="mb-0">Nhà hàng này là một viên ngọc ẩn. Từ thức ăn đến dịch vụ và trang trí, mọi thứ đều hoàn hảo. Tôi không thể nói đủ về điều tốt đẹp của nó!</p><br>
-                        <footer class="blockquote-footer"><cite title="Nguồn">Sarah Lee</cite></footer>
-                    </blockquote>
+                <div class="carousel-item" data-bs-interval="10000">
+                    <div class="row justify-content-center">
+                    <div class="col-md-3">
+                            <blockquote class="blockquote text-center">
+                                <img src="View/Images/about_us_1.jpg" alt="About Us" class="img-fluid rounded-3" style="width: 300px; height: 300px">
+                                <p class="mb-0">Đồ ăn và dịch vụ tuyệt vời. Tôi cảm thấy như một khách VIP ngay từ lúc bước vào cửa. Không thể đợi để quay lại, nhưng mà tôi hết tiền rồi!</p><br>
+                                <footer class="blockquote-footer"><cite title="Nguồn">John Doe</cite></footer>
+                            </blockquote>
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-3">
+                            <blockquote class="blockquote text-center">
+                                <img src="View/Images/about_us_1.jpg" alt="About Us" class="img-fluid rounded-3" style="width: 300px; height: 300px">
+                                <p class="mb-0">Tôi đã đến nhiều nhà hàng, nhưng nhà hàng này nổi bật với sự chú ý đến chi tiết và cam kết với chất lượng. Tôi rất khuyên bạn nên thử nếu ai đang tìm kiếm một trải nghiệm ẩm thực đặc biệt thực sự.</p><br>
+                                <footer class="blockquote-footer"><cite title="Nguồn">Jane Smith</cite></footer>
+                            </blockquote>
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-3">
+                            <blockquote class="blockquote text-center">
+                                <img src="View/Images/about_us_1.jpg" alt="About Us" class="img-fluid rounded-3" style="width: 300px; height: 300px">
+                                <p class="mb-0">Không khí ấm áp và hấp dẫn, đồ ăn ngon vãi cả chưởng, nhân viên thân thiện và chu đáo. Tôi đã lập kế hoạch cho chuyến thăm tiếp theo của mình!</p><br>
+                                <footer class="blockquote-footer"><cite title="Nguồn">John Doe</cite></footer>
+                            </blockquote>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </div><br><br>
+
+            <button class="carousel-control-prev mb-5 pb-5" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next mb-5 pb-5" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
     </div>
+
+
+    
+</div> 
+
+
 </body>
 </html>
