@@ -23,7 +23,7 @@ class LoginController extends BaseController{
     }
     
     public function login(){
-        if (isset($_POST['username']) && isset($_POST['password'])){
+        if (isset($_POST['action']) && $_POST['action'] == 'login'){
             
             $result = $this -> userModel -> login($_POST['username'], $_POST['password']);
             if ($result)
@@ -58,7 +58,29 @@ class LoginController extends BaseController{
         //TODO
         //TODO
         // Validate the user input _GET method for testing, _POST when committing
-
+        if (isset($_POST['action']) && $_POST['action'] == 'register'){
+            $result = $this -> userModel -> register($_POST['username'], $_POST['password'], $_POST['name'], $_POST['phoneNo'], $_POST['avatar']);
+            if ($result)
+            {
+                return $this -> view('user.pages.login',
+                [
+                    'error' => [],
+                    'success' => "Register successfully."
+                ]);
+            } else {
+                return $this -> view('user.pages.login',
+                [
+                    'error' => "User already exists.",
+                    'success' => []
+                ]);
+            }
+        } else {
+            return $this -> view('user.pages.login',
+            [
+                'error' => 'Vui lòng nhập đầy đủ thông tin',
+                'success' => []
+            ]);
+        }
 
 
         // After validate user the model to create a new user 
