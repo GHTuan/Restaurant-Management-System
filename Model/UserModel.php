@@ -10,7 +10,7 @@ class UserModel extends BaseModel{
     }
 
     public function login($username,$password){
-        $sql = "SELECT * FROM " . self::TABLE . " WHERE username = '${username}' AND password = '${password}'";
+        $sql = "SELECT * FROM " . self::TABLE . " WHERE username = '$username' AND password = '$password'";
         $result = $this -> _query($sql);
         $row = $result->fetch_assoc();
         if ((bool)$row){
@@ -33,10 +33,17 @@ class UserModel extends BaseModel{
         // TODO
         // TODO
         // Check if user already exists
-
+        $sql = "SELECT * FROM " . self::TABLE . " WHERE username = '$username'";
+        $result = $this -> _query($sql);
+        if ($result->num_rows > 0){
+            return False;
+        }
+        // If not, create a new user
         // Use create in BaseModel to create a new user
         // If create in BaseModel throw an error, you can freely modify it (not recommended)
-        
+        $sql = "INSERT INTO " . self::TABLE . "(Username, Password, Name, Phoneno, Avatar, AccessLevel) VALUES ('$username', '$password', '$name', '$phoneNo', '$avatar', 1)";
+        $this -> _query($sql);
+        return True;
         // If create successfully return True
         // Other case return false
         // TODO
