@@ -10,8 +10,6 @@
 ?>
 <body>
     This is Cart
-    
-    
 </body>
 </html>
 <?php

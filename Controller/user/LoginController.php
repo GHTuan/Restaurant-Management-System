@@ -5,16 +5,18 @@ require_once('Controller/BaseController.php');
 class LoginController extends BaseController{
 
     private $userModel;
+    private $adminModel;
 
     function __construct(){
         $this -> loadModel('UserModel');
         $this -> userModel = new UserModel();
+        $this -> loadModel('AdminModel');
+        $this -> adminModel = new AdminModel();
     }
 
     public function index(){
 
-        $data = $this -> userModel ->getAll();
-        
+
         return $this -> view('user.pages.login',
         [
             'error' => [],
@@ -29,20 +31,32 @@ class LoginController extends BaseController{
             if ($result)
             {
                 return $this -> view('user.pages.home');
-            } else {
-                return $this -> view('user.pages.login',
-                [
-                    'error' => 'Tài khoản hoặc mật khẩu không đúng',
-                    'success' => []
-                ]);
             }
-        } else {
+
+            $result = $this -> adminModel -> login($_POST['username'], $_POST['password']);
+            if ($result)
+            {
+                return $this -> view('admin.pages.home');
+            }
+
+
             return $this -> view('user.pages.login',
             [
-                'error' => 'Vui lòng nhập đầy đủ thông tin',
+                'error' => 'Tài khoản hoặc mật khẩu không đúng',
                 'success' => []
             ]);
-        }
+            
+        } 
+
+
+
+
+
+        return $this -> view('user.pages.login',
+        [
+            'error' => 'Vui lòng nhập đầy đủ thông tin',
+            'success' => []
+        ]);
     }
     public function logout(){
         $this -> userModel -> logout();

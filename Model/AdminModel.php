@@ -1,8 +1,8 @@
 <?php
 require_once('Model/BaseModel.php');
-class UserModel extends BaseModel{
+class AdminModel extends BaseModel{
 
-	const TABLE = 'member';
+	const TABLE = 'admin';
 
     // This is for testing purposes only, don't use this
 	public function getAll($selct = ['*'], $orderBy = [], $limit = 10){
@@ -10,13 +10,13 @@ class UserModel extends BaseModel{
     }
 
     public function login($username,$password){
-        $sql = "SELECT * FROM " . self::TABLE . " WHERE username = '${username}' AND password = '${password}'";
+        $sql = "SELECT * FROM " . self::TABLE . " WHERE name = '${username}' AND password = '${password}'";
         $result = $this -> _query($sql);
         $row = $result->fetch_assoc();
         if ((bool)$row){
             session_start();
-            $_SESSION['ID'] = $row['UserID'];
-            $_SESSION['Role'] = 'member';
+            $_SESSION['ID'] = $row['AdminID'];
+            $_SESSION['Role'] = 'admin';
             return True;
         } 
         else 
@@ -26,8 +26,7 @@ class UserModel extends BaseModel{
     }
     public function logout(){
         session_unset();
-        session_destroy();  
-        
+        session_destroy();                
     }
     public function register($username,$password,$name,$phoneNo,$avatar){
         // TODO

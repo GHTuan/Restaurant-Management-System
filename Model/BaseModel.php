@@ -67,7 +67,7 @@ class BaseModel extends DataBase{
 
     }
     public function delete($table, $idName, $idValue){
-        $sql = "DELETE FROM WHERE ${idName} = ${idValue}";
+        $sql = "DELETE FROM ${table} WHERE ${idName} = ${idValue}";
         $this -> _query($sql);
     }
     public function _query($sql){
