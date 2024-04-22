@@ -12,19 +12,18 @@ class BaseModel extends DataBase{
     public function all($table ,
                         $select = ['*'],
                         $orderBy = [],
-                        $limit = 15
+                        $limit = 100
                         )
     {
-
         $column = implode(',', $select);
         $orderByStr = implode(',', $orderBy);
 
         if ($orderByStr){
-            $sql = "SELECT ${column} FROM ${table} ORDER BY ${orderByStr} LIMIT ${limit}";
+            $sql = "SELECT {$column} FROM {$table} ORDER BY {$orderByStr} LIMIT {$limit}";
         }
         else
         {
-            $sql = "SELECT ${column} FROM ${table} LIMIT ${limit}";
+            $sql = "SELECT {$column} FROM {$table} LIMIT {$limit}";
         }
         
         $result = $this -> _query($sql);
@@ -37,7 +36,7 @@ class BaseModel extends DataBase{
     }
 
     public function find($table, $idName, $idValue){
-        $sql = "SELECT * FROM ${table} WHERE ${idName} = ${idValue}";
+        $sql = "SELECT * FROM {$table} WHERE {$idName} = {$idValue}";
         $result = $this -> _query($sql);
         return mysqli_fetch_assoc($result);
     }
@@ -47,7 +46,7 @@ class BaseModel extends DataBase{
         $newValue = array_map(function($value){
             return "'" . $value . "'";
         }, array_values($data));
-        $sql = "INSERT INTO ${table}(${key}) VALUES (${newValue})";
+        $sql = "INSERT INTO {$table}({$key}) VALUES ({$newValue})";
         $this -> _query($sql);
         
         
@@ -57,17 +56,17 @@ class BaseModel extends DataBase{
         $dataSet = [];
 
         foreach ($data as $key => $value) {
-            array_push($dataSet, "${key} = '" . $value . "'");
+            array_push($dataSet, "{$key} = '" . $value . "'");
         }
         $dataSetStr = implode(',',$dataSet);
 
-        $sql = "UPDATE ${table} SET ${dataSetStr} WHERE ${idName} = ${idValue}";
+        $sql = "UPDATE {$table} SET {$dataSetStr} WHERE {$idName} = {$idValue}";
 
         $this -> _query($sql);
 
     }
     public function delete($table, $idName, $idValue){
-        $sql = "DELETE FROM ${table} WHERE ${idName} = ${idValue}";
+        $sql = "DELETE FROM {$table} WHERE {$idName} = {$idValue}";
         $this -> _query($sql);
     }
     public function _query($sql){

@@ -82,6 +82,9 @@
           <a class="nav-link active" aria-current="page" href="index.php?controller=login" style="margin-right: 10px;"><i class="fa-solid fa-user-tie"></i> Login</a>
         </div>
         <div>
+          <a class="nav-link active" aria-current="page" href="index.php?controller=login&action=logout" style="margin-right: 10px;"><i class="fa-solid fa-user-tie"></i> Logout</a>
+        </div>
+        <div>
           <a class="nav-link active" href="View/admin/"><i class="fa-solid fa-lock"></i> To Admin</a>
         </div>
       </div>

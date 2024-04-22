@@ -10,11 +10,10 @@ class AdminModel extends BaseModel{
     }
 
     public function login($username,$password){
-        $sql = "SELECT * FROM " . self::TABLE . " WHERE name = '${username}' AND password = '${password}'";
+        $sql = "SELECT * FROM " . self::TABLE . " WHERE name = '{$username}' AND password = '{$password}'";
         $result = $this -> _query($sql);
         $row = $result->fetch_assoc();
         if ((bool)$row){
-            session_start();
             $_SESSION['ID'] = $row['AdminID'];
             $_SESSION['Role'] = 'admin';
             return True;

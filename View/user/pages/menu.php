@@ -66,6 +66,11 @@
         }
     </style>
 </head>
+<?php
+    require('View/user/layouts/navbar.php');
+    // print_r($data);
+?>
+
 <body>
     <header>
         <h1>Menu</h1>
@@ -142,3 +147,6 @@
     </script>
 </body>
 </html>
+<?php
+    require ('View/user/layouts/footer.php');
+?>
