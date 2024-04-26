@@ -22,8 +22,8 @@ class Database
         // Hàm đóng kết nối CSDL
     public function closeDatabase($conn)
 	{
-		if ($this->conn) {
-			$this->conn->close();
+		if ($conn) {
+			$conn->close();
 		}
 	}
 }
