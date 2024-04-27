@@ -40,8 +40,9 @@ class UserModel extends BaseModel{
         // If not, create a new user
         // Use create in BaseModel to create a new user
         // If create in BaseModel throw an error, you can freely modify it (not recommended)
-        $sql = "INSERT INTO " . self::TABLE . "(Username, Password, Name, Phoneno, Avatar, AccessLevel) VALUES ('$username', '$password', '$name', '$phoneNo', '$avatar', 1)";
-        $this -> _query($sql);
+        // $sql = "INSERT INTO " . self::TABLE . "(Username, Password, Name, Phoneno, Avatar, AccessLevel) VALUES ('$username', '$password', '$name', '$phoneNo', '$avatar', 1)";
+        // $this -> _query($sql);
+        $this -> create(self::TABLE, ['Username' => $username, 'Password' => $password, 'Name' => $name, 'Phoneno' => $phoneNo, 'Avatar' => $avatar, 'AccessLevel' => 1]);
         return True;
         // If create successfully return True
         // Other case return false
