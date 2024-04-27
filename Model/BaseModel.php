@@ -43,13 +43,12 @@ class BaseModel extends DataBase{
     
     public function create($table, $data = []){
         $key = implode(',',array_keys($data));
-        $newValue = array_map(function($value){
+        $newValueArray = array_map(function($value){
             return "'" . $value . "'";
         }, array_values($data));
+        $newValue = implode(',', $newValueArray);
         $sql = "INSERT INTO {$table}({$key}) VALUES ({$newValue})";
-        $this -> _query($sql);
-        
-        
+        $this -> _query($sql);       
     }
     public function update($table, $idName ,$idValue, $data = []){
         
