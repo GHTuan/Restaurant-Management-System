@@ -6,6 +6,7 @@
 	<link href="Lib/css/bootstrap.css" rel="stylesheet">
 	<script src="https://kit.fontawesome.com/20b9485268.js" crossorigin="anonymous"></script>
 	<script src="Lib/js/bootstrap.js" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 </head>
 <body>
 	
