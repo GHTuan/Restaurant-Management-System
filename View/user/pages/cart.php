@@ -10,6 +10,11 @@
             margin-top: 20px;
             margin-bottom: 20px;
         }
+        #subtotal {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <?php
@@ -17,21 +22,54 @@ require('View/user/layouts/navbar2.php');
 ?>
 
 <body>
-    <main class="container">
-        <h1>Cart</h1>
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Product Name</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Subtotal</th>
-                </tr>
-            </thead>
-            <tbody>
-
-            </tbody>
-        </table>
+    <main class="container-fluid">
+        <div class="row">
+            <div class="container col-lg-8">
+                <h1>Cart</h1>
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        
+                    </tbody>
+                </table>
+        
+                <button><i class="fa-solid fa-arrow-left"></i> Continue Shopping</button>
+                <button><i class="fa-solid fa-trash"></i> Clear Cart</button>
+            </div>
+            <div class="container col-lg-4">
+                <h2>Order Summary</h2>
+                <div id="subtotal">
+                    <h4>Subtotal:</h4>
+                    <span id="subtotal-price">$0.00</span>
+                </div>
+                <hr>
+                <h4>Shipping:</h4>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="shipping" id="shipping1" value="0" checked>
+                    <label class="form-check-label" for="shipping1">
+                        Flat rate
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="shipping" id="shipping2" value="5">
+                    <label class="form-check-label" for="shipping2">
+                        Free Shipping
+                    </label>
+                </div>
+                <hr>
+                <h4>Total:</h4>
+                <span id="total-price">$0.00</span>
+                <br>
+                <button><i class="fa-solid fa-credit-card"></i> Proceed to Checkout</button>
+            </div>
+        </div>
     </main>
     <script>
         const changeQuantity = (productID, quantity, CartID) => {
@@ -66,6 +104,10 @@ require('View/user/layouts/navbar2.php');
             */
             let tbody = document.querySelector('tbody');
             tbody.innerHTML = '';
+            let subtotalPrice = document.getElementById('subtotal-price');
+            let totalPrice = document.getElementById('total-price');
+
+            let subtotal = 0;
             cartItems.forEach((item) => {
                 let tr = document.createElement('tr');
 
@@ -108,10 +150,13 @@ require('View/user/layouts/navbar2.php');
                 // Fourth Column: Subtotal
                 let tdSubtotal = document.createElement('td');
                 tdSubtotal.innerText = "$" + (item.Product.Price * item.Amount).toFixed(2);
+                subtotal += item.Product.Price * item.Amount;
                 tr.appendChild(tdSubtotal);
 
                 tbody.appendChild(tr);
             });
+            subtotalPrice.innerText = "$" + subtotal.toFixed(2);
+            totalPrice.innerText = "$" + (subtotal + Number(document.querySelector('input[name="shipping"]:checked').value)).toFixed(2);
         }
 
         $(document).ready(function() {
@@ -128,5 +173,5 @@ require('View/user/layouts/navbar2.php');
 
 </html>
 <?php
-require('View/user/layouts/footer.php');
+// require('View/user/layouts/footer.php');
 ?>
