@@ -6,7 +6,10 @@
     #homepage-navbar li:hover {
       background-color: pink;
       border-radius: 5px;
-      padding-left: 10px;
+    }
+
+    #homepage-navbar li{
+      padding: 0 10px;
     }
 
     #homepage-login div {
