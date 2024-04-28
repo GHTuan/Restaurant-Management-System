@@ -27,6 +27,7 @@ class AdminModel extends BaseModel
         $row = $result->fetch_assoc();
         if ((bool)$row) {
             $_SESSION['ID'] = $row['AdminID'];
+            $_SESSION['Name'] = $row['Name'];
             $_SESSION['Role'] = 'admin';
             return True;
         } else {

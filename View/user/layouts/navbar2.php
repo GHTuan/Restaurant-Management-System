@@ -8,7 +8,7 @@
       border-radius: 5px;
     }
 
-    #homepage-navbar li{
+    #homepage-navbar li {
       padding-left: 10px;
     }
 
@@ -28,15 +28,32 @@
       bottom: 20px;
       right: 20px;
       padding: 10px 20px;
-      background-color: rgba(0,0,0,0.5);
+      background-color: rgba(0, 0, 0, 0.5);
       color: #fff;
       border: none;
       border-radius: 5px;
       cursor: pointer;
       display: none;
     }
+
     #moveToTopButton:hover {
-      background-color: rgba(0,0,0,0.8);
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      left: -5px;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+      z-index: 1;
     }
   </style>
 </head>
@@ -76,15 +93,21 @@
         </ul>
       </div>
       <div id="homepage-login" class="d-flex p-0">
-        <div>
-          <a class="nav-link active" aria-current="page" href="index.php?controller=login" style="margin-right: 10px;"><i class="fa-solid fa-user-tie"></i> Login</a>
-        </div>
-        <div>
-          <a class="nav-link active" aria-current="page" href="index.php?controller=login&action=logout" style="margin-right: 10px;"><i class="fa-solid fa-user-tie"></i> Logout</a>
-        </div>
-        <div>
-          <a class="nav-link active" href="View/admin/"><i class="fa-solid fa-lock"></i> To Admin</a>
-        </div>
+        <?php
+        if (isset($_SESSION['Name'])) {
+          echo "<div class=dropdown>";
+          echo "<span><i class='fa-solid fa-user-tie'></i> " . $_SESSION['Name'] . "</span>";
+          echo "<div class=dropdown-content>";
+          echo '<a class="nav-link active" aria-current="page" href="index.php?controller=login&action=logout" style="margin-right: 10px;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>';
+          echo "</div>";
+          echo "</div>";
+        } else {
+          echo '<div>';
+          echo '<a class="nav-link active" aria-current="page" href="index.php?controller=login" style="margin-right: 10px;"><i class="fa-solid fa-user-tie"></i> Login</a>';
+          echo '</div>';
+        }
+        ?>
+
       </div>
     </div>
   </nav>
@@ -109,6 +132,9 @@
           behavior: 'smooth'
         });
       });
+    });
+    $(".dropdown").click(function() {
+      $(".dropdown-content").toggle();
     });
   </script>
 

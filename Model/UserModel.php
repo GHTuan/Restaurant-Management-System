@@ -23,6 +23,7 @@ class UserModel extends BaseModel{
         $row = $result->fetch_assoc();
         if ((bool)$row){
             $_SESSION['ID'] = $row['UserID'];
+            $_SESSION['Name'] = $row['Name'];
             $_SESSION['Role'] = 'member';
             return True;
         } 
