@@ -6,6 +6,7 @@
 
 <?php
 require('View/admin/layouts/navbar.php');
+// print_r($data)
 ?>
 
 </head>
