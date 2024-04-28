@@ -14,8 +14,8 @@ if (!isset($_REQUEST['api'])) {
     return;
 }
 
-$api = ucfirst($_REQUEST['api']) . 'API.php';
-if (!file_exists('Model/API/' . $api)) {
+$api = ucfirst($_REQUEST['api']) . 'API.php';   // Example: 'cart' -> 'CartAPI.php'
+if (!file_exists('Model/API/' . $api)) {        // Check if the API file exists
     http_response_code(400);
     echo json_encode(['message' => 'API Selection is invalid']);
     return;
