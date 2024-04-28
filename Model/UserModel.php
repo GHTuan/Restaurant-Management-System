@@ -9,6 +9,14 @@ class UserModel extends BaseModel{
         return $this -> all(self::TABLE, $selct, $orderBy, $limit);
     }
 
+    public function getById(){
+        if (!isset($_SESSION['ID'])){
+            echo "Must be login";
+            die();
+        }
+        return $this -> find(self::TABLE, 'UserID', $_SESSION['ID']);
+    }
+
     public function login($username,$password){
         $sql = "SELECT * FROM " . self::TABLE . " WHERE username = '$username' AND password = '$password'";
         $result = $this -> _query($sql);

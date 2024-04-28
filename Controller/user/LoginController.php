@@ -16,7 +16,6 @@ class LoginController extends BaseController{
 
     public function index(){
 
-
         return $this -> view('user.pages.login',
         [
             'error' => [],
@@ -48,10 +47,6 @@ class LoginController extends BaseController{
             
         } 
 
-
-
-
-
         return $this -> view('user.pages.login',
         [
             'error' => 'Vui lòng nhập đầy đủ thông tin',
@@ -65,7 +60,6 @@ class LoginController extends BaseController{
             'error' => [],
             'success' => "Logout successfully."
         ]);
-
     }
     
     public function register(){

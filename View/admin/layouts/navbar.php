@@ -1,52 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <title>NavBar</title>
+  <style>
+    #homepage-navbar li:hover {
+      background-color: pink;
+      border-radius: 5px;
+    }
+
+    #homepage-navbar li{
+      padding-left: 10px;
+    }
+
+    #homepage-login div {
+      height: 100%;
+      box-sizing: border-box;
+      padding: 6px;
+    }
+
+    #homepage-login div:hover {
+      background-color: aquamarine;
+      border-radius: 5px;
+    }
+
+    #moveToTopButton {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 10px 20px;
+      background-color: rgba(0,0,0,0.5);
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      display: none;
+    }
+    #moveToTopButton:hover {
+      background-color: rgba(0,0,0,0.8);
+    }
+  </style>
 </head>
+
 <body>
-<nav class="navbar navbar-expand-lg bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Admin Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled">Disabled</a>
-        </li>
-      </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
-      <ul class="navbar-nav mb-2 mb-lg-0">
-        <li class="nav-item">
-            <a class="nav-link active" href="../../">To User</a>
-        </li>
-      <ul>
+  <nav class="navbar navbar-expand-lg d-flex flex-row-reverse" style="
+      padding: 0;
+      font-size: 15px;
+    ">
+    <div class="container-fluid" style="
+          margin: 0;
+          background-color: rgba(218, 240, 247, 0.8);
+          padding: 3px 20px;
+      ">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style="padding: 0 10px;">
+        <span class="navbar-toggler-icon" style="width: 18px;"></span>
+      </button>
+      <a class="navbar-brand" href="#" style="font-size: 15px; font-weight: bold;" ;>HCMUT Restaurant</a>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="homepage-navbar">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="index.php?controller=home"><i class="fa-solid fa-house"></i> Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="index.php?controller=product"><i class="fa-solid fa-utensils"></i> Product</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="index.php?controller=admin"><i class="fa-solid fa-cart-shopping"></i> Admin</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="index.php?controller=user"><i class="fa-solid fa-gear"></i> User</a>
+          </li>
+
+        </ul>
+      </div>
+      <div id="homepage-login" class="d-flex p-0">
+        <!-- <div>
+          <a class="nav-link active" aria-current="page" href="index.php?controller=login" style="margin-right: 10px;"><i class="fa-solid fa-user-tie"></i> Login</a>
+        </div> -->
+        <div>
+          <a class="nav-link active" aria-current="page" href="index.php?controller=home&action=logout" style="margin-right: 10px;"><i class="fa-solid fa-user-tie"></i> Logout</a>
+        </div>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
+  <button id="moveToTopButton"><i class="fa-solid fa-arrow-up"></i></button>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let moveToTopButton = document.getElementById('moveToTopButton');
+
+      window.addEventListener('scroll', function() {
+        // Show or hide the "Move to Top" button based on the scroll position
+        if (window.scrollY > 100) {
+          moveToTopButton.style.display = 'block';
+        } else {
+          moveToTopButton.style.display = 'none';
+        }
+      });
+
+      moveToTopButton.addEventListener('click', function() {
+        // Smoothly scroll to the top of the page
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+
 </body>
+
 </html>
