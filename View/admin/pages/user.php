@@ -187,7 +187,8 @@ require('View/admin/layouts/navbar.php');
                         }
                     }
                 }).fail((response) => {
-                    console.log("Fail: ", response.responseText);
+                    console.log("Fail: ", response);
+                    window.alert(response?.responseJSON?.message || "Failed");
                 });
             });
             $('#myModal').modal('show');
@@ -205,7 +206,6 @@ require('View/admin/layouts/navbar.php');
                         data[key] = $(`#${key}`).val();
                     }
                 });
-                console.log("Editing data is going to send: ", data);
                 $.post('APISelection.php', {
                     api: 'accountManagement',
                     action: 'editAccount',
@@ -223,7 +223,8 @@ require('View/admin/layouts/navbar.php');
                         }
                     }
                 }).fail((response) => {
-                    console.log("Fail: ", response.responseText);
+                    console.log(response);
+                    window.alert(response?.responseJSON?.message || "Failed");
                 });
             });
             $('#myModal').modal('show');
@@ -244,7 +245,7 @@ require('View/admin/layouts/navbar.php');
                     }
                 }
             }).fail((response) => {
-                console.log("Fail: ", response.responseText);
+                window.alert("Fail: ", response.responseText);
             });
         }
 
@@ -254,6 +255,8 @@ require('View/admin/layouts/navbar.php');
                 action: 'getUserAccounts'
             }).done((response) => {
                 loadAccountList(response.data, 'user');
+            }).fail((response) => {
+                window.alert("Fail: ", response.responseText);
             })
         }
 
@@ -263,6 +266,8 @@ require('View/admin/layouts/navbar.php');
                 action: 'getAdminAccounts'
             }).done((response) => {
                 loadAccountList(response.data, 'admin');
+            }).fail((response) => {
+                window.alert("Fail: ", response.responseText);
             })
         }
         loadUserAccounts();

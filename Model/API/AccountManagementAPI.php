@@ -47,6 +47,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 if ($result) {
                     echo json_encode(['message' => 'Success']);
                 } else {
+                    http_response_code(406);
                     echo json_encode(['message' => 'Failed']);
                 }
                 break;
@@ -64,6 +65,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 if ($result) {
                     echo json_encode(['message' => 'Success']);
                 } else {
+                    http_response_code(406);
                     echo json_encode(['message' => 'Failed']);
                 }
                 break;
@@ -81,6 +83,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 if ($result) {
                     echo json_encode(['message' => 'Success']);
                 } else {
+                    http_response_code(406);
                     echo json_encode(['message' => 'Failed']);
                 }
                 break;
