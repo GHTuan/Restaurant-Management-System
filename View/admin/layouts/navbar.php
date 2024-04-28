@@ -67,9 +67,11 @@
             <a class="nav-link active" aria-current="page" href="index.php?controller=admin"><i class="fa-solid fa-cart-shopping"></i> Admin</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="index.php?controller=cart"><i class="fa-solid fa-cart-shopping"></i> Cart</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="index.php?controller=user"><i class="fa-solid fa-gear"></i> User</a>
           </li>
-
         </ul>
       </div>
       <div id="homepage-login" class="d-flex p-0">

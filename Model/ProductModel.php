@@ -13,5 +13,12 @@ class ProductModel extends BaseModel{
         return $this -> find(self::TABLE, 'ProductId', $id);
     }
 
+    public function count(){
+        $sql = "SELECT COUNT(ProductID) AS NumberOfProduct FROM " . self::TABLE;
+        $result = $this -> _query($sql);
+        $row = $result->fetch_assoc();
+        return $row;
+    }
+
 
 }
