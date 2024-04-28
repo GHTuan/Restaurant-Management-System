@@ -76,7 +76,8 @@ require('View/user/layouts/navbar2.php');
         let userID = <?php echo $_SESSION['ID'] ?>;
         let cartID = null;
         const changeQuantity = (productID, quantity, CartID) => {
-            $.post('CartAPI.php', {
+            $.post('APISelection.php', {
+                api: 'cart',
                 action: 'update',
                 productID: productID,
                 amount: quantity,
@@ -171,7 +172,8 @@ require('View/user/layouts/navbar2.php');
         }
 
         $(document).ready(function() {
-            $.post('CartAPI.php', {
+            $.post('APISelection.php', {
+                api: 'cart',
                 action: 'load'
             }).done((response) => {
                 if (response.CartID) {
@@ -181,7 +183,8 @@ require('View/user/layouts/navbar2.php');
                     showCartItem(response.cartItems);
                     // Clear Cart button
                     $('#clear-cart').click(() => {
-                        $.post('CartAPI.php', {
+                        $.post('APISelection.php', {
+                            api: 'cart',
                             action: 'clear',
                         }).done((response) => {
                             console.log(response);
