@@ -113,4 +113,15 @@ class UserModel extends BaseModel{
         return $this -> loadCartItems($userID);
     }
     
+    public function clearCart($userID){
+        // Select the cart in cart table with null ExportDate
+        $sql = "SELECT * FROM cart WHERE UserID = $userID AND ExportDate IS NULL";
+        $result = $this -> _query($sql);
+        $row = $result->fetch_assoc();
+        $cartID = $row['CartID'];
+        // Delete all the items in the cart
+        $sql = "DELETE FROM cartitem WHERE CartID = $cartID";
+        $this -> _query($sql);
+        return [];
+    }
 }

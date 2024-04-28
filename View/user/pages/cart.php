@@ -10,6 +10,7 @@
             margin-top: 20px;
             margin-bottom: 20px;
         }
+
         #subtotal {
             display: flex;
             justify-content: space-between;
@@ -36,12 +37,12 @@ require('View/user/layouts/navbar2.php');
                         </tr>
                     </thead>
                     <tbody>
-        
+
                     </tbody>
                 </table>
-        
-                <button><i class="fa-solid fa-arrow-left"></i> Continue Shopping</button>
-                <button><i class="fa-solid fa-trash"></i> Clear Cart</button>
+
+                <button id="continue-shopping"><i class="fa-solid fa-arrow-left"></i> Continue Shopping</button>
+                <button id="clear-cart"><i class="fa-solid fa-trash"></i> Clear Cart</button>
             </div>
             <div class="container col-lg-4">
                 <h2>Order Summary</h2>
@@ -72,6 +73,8 @@ require('View/user/layouts/navbar2.php');
         </div>
     </main>
     <script>
+        let userID = <?php echo $_SESSION['ID'] ?>;
+        let cartID = null;
         const changeQuantity = (productID, quantity, CartID) => {
             $.post('CartAPI.php', {
                 action: 'update',
@@ -155,6 +158,14 @@ require('View/user/layouts/navbar2.php');
 
                 tbody.appendChild(tr);
             });
+            if (cartItems.length == 0) {
+                let tr = document.createElement('tr');
+                let td = document.createElement('td');
+                td.colSpan = 4;
+                td.innerText = 'No items in cart';
+                tr.appendChild(td);
+                tbody.appendChild(tr);
+            }
             subtotalPrice.innerText = "$" + subtotal.toFixed(2);
             totalPrice.innerText = "$" + (subtotal + Number(document.querySelector('input[name="shipping"]:checked').value)).toFixed(2);
         }
@@ -163,9 +174,30 @@ require('View/user/layouts/navbar2.php');
             $.post('CartAPI.php', {
                 action: 'load'
             }).done((response) => {
+                if (response.CartID) {
+                    cartID = response.CartID;
+                }
                 if (response.cartItems) {
                     showCartItem(response.cartItems);
+                    // Clear Cart button
+                    $('#clear-cart').click(() => {
+                        $.post('CartAPI.php', {
+                            action: 'clear',
+                        }).done((response) => {
+                            console.log(response);
+                            showCartItem(response.cartItems);
+                        }).fail((response) => {
+                            console.log("Fail: ", response);
+                            alert(response.responseJSON.message);
+                        });
+                    });
+
                 }
+            });
+
+            // Continue Shopping button
+            $('#continue-shopping').click(() => {
+                window.location.href = 'index.php?controller=menu';
             });
         });
     </script>
