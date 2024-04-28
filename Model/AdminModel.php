@@ -80,14 +80,14 @@ class AdminModel extends BaseModel
         $sql = "";
         if ($type == 'admin') {
             // Check if the account already exists
-            $sql = "SELECT * FROM admin WHERE name = '{$data['name']}'";
+            $sql = "SELECT * FROM admin WHERE Name = '{$data['Name']}'";
             $result = $this->_query($sql);
             $row = $result->fetch_assoc();
             if ((bool)$row && $row['AdminID'] != $id) {
                 return False;
             }
             // Check in the member table
-            $sql = "SELECT * FROM member WHERE Username = '{$data['name']}'";
+            $sql = "SELECT * FROM member WHERE Username = '{$data['Name']}'";
             $result = $this->_query($sql);
             $row = $result->fetch_assoc();
             if ((bool)$row) {
@@ -109,7 +109,7 @@ class AdminModel extends BaseModel
                 return False;
             }
             // Check in the admin table
-            $sql = "SELECT * FROM admin WHERE name = '{$data['Username']}'";
+            $sql = "SELECT * FROM admin WHERE Name = '{$data['Username']}'";
             $result = $this->_query($sql);
             $row = $result->fetch_assoc();
             if ((bool)$row) {
@@ -146,14 +146,14 @@ class AdminModel extends BaseModel
         $sql = "";
         if ($type == 'admin') {
             // Check if the account already exists
-            $sql = "SELECT * FROM admin WHERE name = '{$data['name']}'";
+            $sql = "SELECT * FROM admin WHERE Name = '{$data['Name']}'";
             $result = $this->_query($sql);
             $row = $result->fetch_assoc();
             if ((bool)$row) {
                 return False;
             }
             // Check in the member table
-            $sql = "SELECT * FROM member WHERE Username = '{$data['name']}'";
+            $sql = "SELECT * FROM member WHERE Username = '{$data['Name']}'";
             $result = $this->_query($sql);
             $row = $result->fetch_assoc();
             if ((bool)$row) {
@@ -174,7 +174,7 @@ class AdminModel extends BaseModel
                 return False;
             }
             // Check in the admin table
-            $sql = "SELECT * FROM admin WHERE name = '{$data['Username']}'";
+            $sql = "SELECT * FROM admin WHERE Name = '{$data['Username']}'";
             $result = $this->_query($sql);
             $row = $result->fetch_assoc();
             if ((bool)$row) {
