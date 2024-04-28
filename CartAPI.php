@@ -2,11 +2,11 @@
 session_start();
 header('Content-Type: application/json');
 
-if (!isset($_SESSION['ID'])) {
-    http_response_code(401);
-    echo json_encode(['message' => 'Unauthorized']);
-    return;
-}
+// if (!isset($_SESSION['ID'])) {
+//     http_response_code(401);
+//     echo json_encode(['message' => 'Unauthorized']);
+//     return;
+// }
 
 switch($_SERVER['REQUEST_METHOD'])
 {
@@ -46,6 +46,13 @@ switch($_SERVER['REQUEST_METHOD'])
                 $cartItems = $model -> updateCartItems($_SESSION['ID'], $_POST['productID'], $_POST['amount'], $_POST['cartId']);
                 // $cartItems = $model -> updateCartItems(1, $_POST['productID'], $_POST['amount'], $_POST['cartId']);
                 echo json_encode(['cartItems' => $cartItems, 'message' => 'Updated successfully']);
+                break;
+            case 'clear':
+                require_once('Model/UserModel.php');
+                $model = new UserModel();
+                $cartItems = $model -> clearCart($_SESSION['ID']);
+                // $cartItems = $model -> clearCart(1);
+                echo json_encode(['cartItems' => $cartItems, 'message' => 'Cleared successfully']);
                 break;
             default:
                 http_response_code(400);

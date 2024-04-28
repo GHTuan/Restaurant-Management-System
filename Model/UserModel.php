@@ -45,6 +45,13 @@ class UserModel extends BaseModel{
         if ($result->num_rows > 0){
             return False;
         }
+
+        // Check if username is same with admin
+        $sql = "SELECT * FROM admin WHERE name = '$username'";
+        $result = $this -> _query($sql);
+        if ($result->num_rows > 0){
+            return False;
+        }
         // If not, create a new user
         // Use create in BaseModel to create a new user
         // If create in BaseModel throw an error, you can freely modify it (not recommended)
@@ -121,4 +128,15 @@ class UserModel extends BaseModel{
         return $this -> loadCartItems($userID);
     }
     
+    public function clearCart($userID){
+        // Select the cart in cart table with null ExportDate
+        $sql = "SELECT * FROM cart WHERE UserID = $userID AND ExportDate IS NULL";
+        $result = $this -> _query($sql);
+        $row = $result->fetch_assoc();
+        $cartID = $row['CartID'];
+        // Delete all the items in the cart
+        $sql = "DELETE FROM cartitem WHERE CartID = $cartID";
+        $this -> _query($sql);
+        return [];
+    }
 }
