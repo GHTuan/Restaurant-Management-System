@@ -37,6 +37,13 @@ class UserModel extends BaseModel{
         if ($result->num_rows > 0){
             return False;
         }
+
+        // Check if username is same with admin
+        $sql = "SELECT * FROM admin WHERE name = '$username'";
+        $result = $this -> _query($sql);
+        if ($result->num_rows > 0){
+            return False;
+        }
         // If not, create a new user
         // Use create in BaseModel to create a new user
         // If create in BaseModel throw an error, you can freely modify it (not recommended)
