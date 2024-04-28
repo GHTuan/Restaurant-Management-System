@@ -40,4 +40,78 @@ class AdminModel extends BaseModel{
         // TODO
         // TODO
     }
+
+    public function getUserAccounts(){
+        $sql = "SELECT * FROM member";
+        $result = $this -> _query($sql);
+        $data = [];
+        while ($row = $result->fetch_assoc()){
+            $data[] = $row;
+        }
+        return $data;
+    }
+
+    public function getAdminAccounts(){
+        $sql = "SELECT * FROM admin";
+        $result = $this -> _query($sql);
+        $data = [];
+        while ($row = $result->fetch_assoc()){
+            $data[] = $row;
+        }
+        return $data;
+    }
+
+    public function editAccount($type, $id, $data){
+        $sql = "";
+        if ($type == 'admin'){
+            $sql = "UPDATE admin SET ";
+            foreach ($data as $key => $value) {
+                $sql .= "{$key} = '{$value}',";
+            }
+            $sql = substr($sql, 0, -1);
+            $sql .= " WHERE AdminID = {$id}";
+        } else if ($type == 'user'){    
+            $sql = "UPDATE member SET ";
+            foreach ($data as $key => $value) {
+                $sql .= "{$key} = '{$value}',";
+            }
+            $sql = substr($sql, 0, -1);
+            $sql .= " WHERE UserID = {$id}";
+        } else {
+            $sql = "";
+        }
+        return $this -> _query($sql);
+    }
+
+    public function deleteAccount($type, $id){
+        $sql = "";
+        if ($type == 'admin'){
+            $sql = "DELETE FROM admin WHERE AdminID = {$id}";
+        } else if ($type == 'user'){    
+            $sql = "DELETE FROM member WHERE UserID = {$id}";
+        } else {
+            $sql = "";
+        }
+        return $this -> _query($sql);
+    }
+
+    public function addAccount($type, $data){
+        $sql = "";
+        if ($type == 'admin'){
+            $sql = "INSERT INTO admin(";
+            $sql .= implode(',', array_keys($data));
+            $sql .= ") VALUES ('";
+            $sql .= implode("','", array_values($data));
+            $sql .= "')";
+        } else if ($type == 'user'){    
+            $sql = "INSERT INTO member(";
+            $sql .= implode(',', array_keys($data));
+            $sql .= ") VALUES ('";
+            $sql .= implode("','", array_values($data));
+            $sql .= "')";
+        } else {
+            $sql = "";
+        }
+        return $this -> _query($sql);
+    }
 }
