@@ -65,6 +65,23 @@ class UserModel extends BaseModel{
         // TODO
     }
 
+    public function count(){
+        $sql = "SELECT COUNT(UserID) AS NumberOfUser FROM " . self::TABLE;
+        $result = $this -> _query($sql);
+        $row = $result->fetch_assoc();
+        return $row;
+    }
+
+    public function getRecentUser(){
+        $sql = "SELECT * FROM " . self::TABLE . " ORDER BY UserID DESC LIMIT 5";
+        $result = $this -> _query($sql);
+        $data = [];
+        while ($row = mysqli_fetch_assoc($result)){
+            array_push($data, $row);
+        }
+        return $data;
+    }
+
     public function loadProductInfo($productID){
         // Select the product in product table with ProductID
         $sql = "SELECT * FROM product WHERE ProductID = $productID";
