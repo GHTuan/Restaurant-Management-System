@@ -41,12 +41,12 @@
           </div>
             <div class="mb-3">
                 <label for="email" class="form-label fw-bold">Email:</label>
-                <input type="text" id="email" class="form-control" placeholder="abc@example.com" required>
+                <input type="email" id="email" class="form-control" placeholder="abc@example.com" required>
             </div>
             <div class="row">
             <div class="col-md-6 mb-3">
                 <label for="birthday" class="form-label fw-bold">Birthday:</label>
-                <input type="text" id="birthday" class="form-control" placeholder="" required>
+                <input type="date" id="birthday" class="form-control" placeholder="" required>
             </div>
             <div class="col-md-6 mb-3">
                 <label for="gender" class="form-label fw-bold">Gender:</label>
@@ -56,6 +56,10 @@
             <div class="mb-3">
                 <label for="address" class="form-label fw-bold">Address:</label>
                 <input type="text" id="address" class="form-control" placeholder="" required>
+            </div>
+            <div class="mb-3">
+                <label for="phoneno" class="form-label fw-bold">Phone Number:</label>
+                <input type="number" id="phoneno" class="form-control" placeholder="" required>
             </div>
             <div class="mb-3">
                 <label for="about" class="form-label fw-bold">About Me:</label>
