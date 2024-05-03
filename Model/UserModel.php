@@ -161,4 +161,10 @@ class UserModel extends BaseModel{
         $this -> _query($sql);
         return [];
     }
+
+    public function editUser($userID, $Name, $LastName, $Email, $Phoneno, $Gender, $Address, $Avatar, $AccessLevel){
+        $inputData = ["Name" => $Name, "LastName" => $LastName, "Email" => $Email, "Phoneno" => $Phoneno, "Gender" => $Gender, "Address" => $Address, "Avatar" => $Avatar, "AccessLevel" => $AccessLevel];
+        $this -> update(self::TABLE,"UserID" ,$userID,$inputData);
+        return True;
+    }
 }
