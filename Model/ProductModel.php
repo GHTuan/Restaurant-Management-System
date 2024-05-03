@@ -29,4 +29,15 @@ class ProductModel extends BaseModel
         // Select the product in product table with ProductID
         return $this->find(self::TABLE, 'ProductID', $productID);
     }
+
+    public function loadProductItemFromCart($cartID)
+    {
+        $sql = "SELECT * FROM cartitem WHERE CartID = $cartID";
+        $result = $this->_query($sql);
+        $data = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            array_push($data, $row);
+        }
+        return $data;
+    }
 }
