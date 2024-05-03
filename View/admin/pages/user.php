@@ -100,6 +100,9 @@ require('View/admin/layouts/navbar.php');
                     if (key === 'AccessLevel') {
                         if (item[key] == 0) row += `<td style="color: red;">Blocked</td>`;
                         else row += `<td style="color: green;">Unrestricted</td>`;
+                    } else if (key === 'Avatar')
+                    {
+                        row += `<td><img src="${item[key]}" style="width: 50px; height: 50px;"></td>`;
                     } else row += `<td>${item[key]}</td>`;
                 });
                 const id = item[Object.keys(item)[0]];
