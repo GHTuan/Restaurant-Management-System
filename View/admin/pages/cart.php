@@ -23,6 +23,9 @@
         #myModal {
             width: 80vw;
         }
+        button.btn{
+            margin-right: 5px;
+        }
     </style>
 </head>
 
@@ -104,7 +107,6 @@
                 $.post('APISelection.php', dataSend).done((data) => {
                     cartData = data.data;
                     displayCarts(cartData);
-                    console.log(cartData);
                 }).fail((response) => {
                     console.log(response);
                     window.alert("There was an error, check console for more information");
@@ -124,23 +126,91 @@
                 keys.forEach((key) => {
                     $("#cart-list thead tr").append(`<th>${key}</th>`);
                 });
+                // Append action column
+                $("#cart-list thead tr").append(`<th>Action</th>`);
 
-                $("#cart-list tbody").empty();
+                const cartListBody = $("#cart-list tbody");
+                cartListBody.empty(); // Clear existing table body
                 data.forEach((cart) => {
-                    console.log(cart);
                     const cartId = cart['CartID'] ? cart['CartID'] : '0';
-                    let row = `<tr id=${cartId}>`;
+                    const row = $("<tr>").attr("id", cartId);
+
                     keys.forEach((key) => {
-                        row += `<td>${cart[key]}</td>`;
+                        row.append($("<td>").text(cart[key]));
                     });
-                    row += "</tr>";
-                    $("tbody").append(row);
+
+                    const actionTd = $("<td>");
+                    const viewButton = $("<button>").addClass("btn btn-primary")
+                    viewButton.off('click');
+                    viewButton.click(() => {
+                        $('#modal-title').text('Cart ' + cartId + ' Info');
+                        findCartInfo(cartId);
+                        $('#myModal').modal('show');
+                    });
+                    const viewIcon = $("<i>").addClass("fa-regular fa-eye");
+                    viewButton.append(viewIcon);
+                    actionTd.append(viewButton);
+
+                    const clearButton = $("<button>").addClass("btn btn-warning")
+                    clearButton.off('click');
+                    clearButton.click(() => {
+                        if (confirm("Are you sure you want to clear this cart?")) {
+                            clearCart(cartId);
+                        }
+                    });
+                    const clearIcon = $("<i>").addClass("fa-solid fa-delete-left");
+                    clearButton.append(clearIcon);
+                    actionTd.append(clearButton);
+
+                    const deleteButton = $("<button>").addClass("btn btn-danger")
+                    deleteButton.off('click');
+                    deleteButton.click(() => {
+                        if (confirm("Are you sure you want to delete this cart?")) {
+                            deleteCart(cartId);
+                        }
+                    });
+                    const trashIcon = $("<i>").addClass("fa-regular fa-trash-can");
+                    deleteButton.append(trashIcon);
+                    actionTd.append(deleteButton);
+                    
+                    row.append(actionTd);
+                    cartListBody.append(row);
                 });
             }
 
             $(document).ready(() => {
                 getCarts();
             });
+
+            const clearCart = (cartId) => {
+                const dataSend = {
+                    api: 'cartManagement',
+                    action: 'clearCart',
+                    cartId: cartId
+                };
+                $.post('APISelection.php', dataSend).done((data) => {
+                    getCarts();
+                    window.alert("Cart cleared successfully");
+                }).fail((response) => {
+                    console.log(response);
+                    window.alert("There was an error, check console for more information");
+                })
+            }
+
+            const deleteCart = (cartId) => {
+                const dataSend = {
+                    api: 'cartManagement',
+                    action: 'deleteCart',
+                    cartId: cartId
+                };
+                $.post('APISelection.php', dataSend).done((data) => {
+                    getCarts();
+                    window.alert("Cart deleted successfully");
+                }).fail((response) => {
+                    console.log(response);
+                    window.alert("There was an error, check console for more information");
+                })
+            }
 
             const findCartInfo = (cartId) => {
                 const dataSend = {
@@ -149,7 +219,6 @@
                     cartId: cartId
                 };
                 $.post('APISelection.php', dataSend).done((data) => {
-                    console.log(data);
                     renderCartInfo(data.data);
                 }).fail((response) => {
                     console.log(response);
@@ -212,7 +281,7 @@
                 });
 
 
-                // Render User Info
+                // Render User Info with avatar
                 const userInfo = data.UserInfo;
                 const userDiv = `
                 <div class="card" style="width: 18rem;">
@@ -221,6 +290,7 @@
                         <p class="card-text">Username: ${userInfo.Username}</p>
                         <p class="card-text">Phone Number: ${userInfo.Phoneno}</p>
                         <p class="card-text">Access Level: ${userInfo.AccessLevel}</p>
+                        <img src="${userInfo.Avatar ? userInfo.Avatar : 'https://via.placeholder.com/150'}" class="img-fluid" alt="User Avatar">
                     </div>
                 </div>
             `;
@@ -240,15 +310,6 @@
 
                 cartSummary.append(cartSummaryDiv);
             }
-
-            $(document).on('click', '#cart-list tbody tr', (e) => {
-                const cartId = e.currentTarget.id;
-                const cart = cartData.find((cart) => cart['CartID'] == cartId);
-                $('#modal-title').text('Cart ' + cartId + ' Info');
-                findCartInfo(cartId);
-                $('#myModal').modal('show');
-            });
-
             const searchInput = document.querySelector('input[type="search"]');
             searchInput.addEventListener("input", (e) => {
                 const value = e.target.value;

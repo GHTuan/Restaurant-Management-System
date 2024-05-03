@@ -99,4 +99,10 @@ class CartModel extends BaseModel
         $this -> delete('cartitem', 'CartID', $cartID);
         return [];
     }
+
+    public function deleteCart($cartID)
+    {
+        $this -> delete(self::TABLE, 'CartID', $cartID);
+        return [];
+    }
 }

@@ -61,6 +61,30 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 $data['Products'] = $productInCart;
                 echo json_encode(['data' => $data, 'message' => 'Success']);
                 break;
+            case 'clearCart':
+                if (!isset($_POST['cartId'])) {
+                    http_response_code(400);
+                    echo json_encode(['message' => 'Cart ID is required']);
+                    return;
+                }
+                require_once('Model/CartModel.php');
+                $cartModel = new CartModel();
+                $cartId = $_POST['cartId'];
+                $cartModel->clearCart($cartId);
+                echo json_encode(['message' => 'Success']);
+                break;
+            case 'deleteCart':
+                if (!isset($_POST['cartId'])) {
+                    http_response_code(400);
+                    echo json_encode(['message' => 'Cart ID is required']);
+                    return;
+                }
+                require_once('Model/CartModel.php');
+                $cartModel = new CartModel();
+                $cartId = $_POST['cartId'];
+                $cartModel->deleteCart($cartId);
+                echo json_encode(['message' => 'Success']);
+                break;
             default:
                 http_response_code(400);
                 echo json_encode(['message' => 'Invalid action']);
