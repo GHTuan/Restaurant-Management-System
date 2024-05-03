@@ -16,6 +16,9 @@
             justify-content: space-between;
             margin-bottom: 20px;
         }
+        td button{
+            margin: 0 5px;
+        }
     </style>
 </head>
 <?php
@@ -41,8 +44,8 @@ require('View/user/layouts/navbar2.php');
                     </tbody>
                 </table>
 
-                <button id="continue-shopping"><i class="fa-solid fa-arrow-left"></i> Continue Shopping</button>
-                <button id="clear-cart"><i class="fa-solid fa-trash"></i> Clear Cart</button>
+                <button id="continue-shopping" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i> Continue Shopping</button>
+                <button id="clear-cart" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Clear Cart</button>
             </div>
             <div class="container col-lg-4">
                 <h2>Order Summary</h2>
@@ -68,7 +71,7 @@ require('View/user/layouts/navbar2.php');
                 <h4>Total:</h4>
                 <span id="total-price">$0.00</span>
                 <br>
-                <button><i class="fa-solid fa-credit-card"></i> Proceed to Checkout</button>
+                <button class="btn btn-success" id="proceed" style="margin-top: 5px;"><i class="fa-solid fa-credit-card"></i> Proceed to Checkout</button>
             </div>
         </div>
     </main>
@@ -139,6 +142,9 @@ require('View/user/layouts/navbar2.php');
                 btnDecrease.addEventListener('click', () => {
                     changeQuantity(item.Product.ProductID, Number(item.Amount) - 1, item.CartID);
                 });
+                // Add class to the button
+                btnDecrease.classList.add('btn');
+                btnDecrease.classList.add('btn-secondary');
                 tdQuantity.appendChild(btnDecrease);
                 let spanQuantity = document.createElement('span');
                 spanQuantity.innerText = item.Amount;
@@ -148,6 +154,8 @@ require('View/user/layouts/navbar2.php');
                 btnIncrease.addEventListener('click', () => {
                     changeQuantity(item.Product.ProductID, Number(item.Amount) + 1, item.CartID);
                 });
+                btnIncrease.classList.add('btn');
+                btnIncrease.classList.add('btn-secondary');
                 tdQuantity.appendChild(btnIncrease);
                 tr.appendChild(tdQuantity);
 
@@ -204,6 +212,25 @@ require('View/user/layouts/navbar2.php');
             // Continue Shopping button
             $('#continue-shopping').click(() => {
                 window.location.href = 'index.php?controller=menu';
+            });
+        });
+
+        $("#proceed").click(() => {
+            $.post('APISelection.php', {
+                api: 'cart',
+                action: 'checkout',
+                cartID: cartID
+            }).done((response) => {
+                console.log(response);
+                if (response.success) {
+                    alert('Checkout successful');
+                    window.location.href = 'index.php?controller=order';
+                } else {
+                    alert('Checkout failed');
+                }
+            }).fail((response) => {
+                console.log("Fail: ", response);
+                alert("There was an error processing your request. Please try again later.");
             });
         });
     </script>

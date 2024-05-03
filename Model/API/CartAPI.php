@@ -46,6 +46,19 @@ switch($_SERVER['REQUEST_METHOD'])
                 // $cartItems = $model -> clearCart(1);
                 echo json_encode(['cartItems' => $cartItems, 'message' => 'Cleared successfully']);
                 break;
+            case 'checkout':
+                if (!isset($_POST['cartID']))
+                {
+                    http_response_code(400);
+                    echo json_encode(['message' => 'CartID is required']);
+                    return;
+                }
+                require_once('Model/UserModel.php');
+                $model = new UserModel();
+                $success = $model -> checkout();
+                // $success = $model -> checkout(1);
+                echo json_encode(['success' => $success, 'message' => 'Checkout successful']);
+                break;
             default:
                 http_response_code(400);
                 echo json_encode(['message' => 'Invalid action']);

@@ -133,6 +133,7 @@
                 cartListBody.empty(); // Clear existing table body
                 data.forEach((cart) => {
                     const cartId = cart['CartID'] ? cart['CartID'] : '0';
+                    const isExported = cart['ExportDate'] ? true : false;
                     const row = $("<tr>").attr("id", cartId);
 
                     keys.forEach((key) => {
@@ -151,16 +152,19 @@
                     viewButton.append(viewIcon);
                     actionTd.append(viewButton);
 
-                    const clearButton = $("<button>").addClass("btn btn-warning")
-                    clearButton.off('click');
-                    clearButton.click(() => {
-                        if (confirm("Are you sure you want to clear this cart?")) {
-                            clearCart(cartId);
-                        }
-                    });
-                    const clearIcon = $("<i>").addClass("fa-solid fa-delete-left");
-                    clearButton.append(clearIcon);
-                    actionTd.append(clearButton);
+                    if (!isExported)
+                    {
+                        const clearButton = $("<button>").addClass("btn btn-warning")
+                        clearButton.off('click');
+                        clearButton.click(() => {
+                            if (confirm("Are you sure you want to clear this cart?")) {
+                                clearCart(cartId);
+                            }
+                        });
+                        const clearIcon = $("<i>").addClass("fa-solid fa-delete-left");
+                        clearButton.append(clearIcon);
+                        actionTd.append(clearButton);
+                    }
 
                     const deleteButton = $("<button>").addClass("btn btn-danger")
                     deleteButton.off('click');

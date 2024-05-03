@@ -105,4 +105,11 @@ class CartModel extends BaseModel
         $this -> delete(self::TABLE, 'CartID', $cartID);
         return [];
     }
+
+    public function checkout($cartID)
+    {
+        $sql = "UPDATE cart SET ExportDate = NOW() WHERE CartID = $cartID";
+        $this->_query($sql);
+        return True;
+    }
 }
