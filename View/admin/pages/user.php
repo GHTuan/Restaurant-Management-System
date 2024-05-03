@@ -81,6 +81,8 @@ require('View/admin/layouts/navbar.php');
 
         const loadAccountList = (data, type) => {
             if (data.length == 0) {
+                $("thead tr").empty();
+                $("tbody").empty();
                 return;
             }
             const thead = document.querySelector('thead tr');
