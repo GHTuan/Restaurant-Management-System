@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th4 11, 2024 lúc 04:39 AM
+-- Thời gian đã tạo: Th5 03, 2024 lúc 09:56 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -120,6 +120,10 @@ CREATE TABLE `member` (
   `Name` varchar(255) DEFAULT NULL,
   `Phoneno` varchar(255) DEFAULT NULL,
   `Avatar` varchar(500) DEFAULT NULL,
+  `Address` varchar(500) DEFAULT NULL,
+  `LastName` varchar(255) DEFAULT NULL,
+  `Email` varchar(255) DEFAULT NULL,
+  `Gender` varchar(255) DEFAULT NULL,
   `AccessLevel` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -127,10 +131,10 @@ CREATE TABLE `member` (
 -- Đang đổ dữ liệu cho bảng `member`
 --
 
-INSERT INTO `member` (`UserID`, `Username`, `Password`, `Name`, `Phoneno`, `Avatar`, `AccessLevel`) VALUES
-(1, 'john', '123', 'John Doe', '123-456-7890', '', 1),
-(2, 'smith', 'abc', 'Jane Smith', '987-654-3210', '', 1),
-(3, 'bob_jackson', '123', 'Bob Jackson', '555-555-5555', '', 0);
+INSERT INTO `member` (`UserID`, `Username`, `Password`, `Name`, `Phoneno`, `Avatar`, `Address`, `LastName`, `Email`, `Gender`, `AccessLevel`) VALUES
+(1, 'john', '123', 'John', '1234567890', 'https://wallpapers.com/images/featured/picture-en3dnh2zi84sgt3t.jpg', '123 Main St, City, Country', 'Doe', 'john.doe@example.com', 'male', 1),
+(2, 'jane_smith', 'smithy456', 'Jane', '0987654321', 'https://media.wired.com/photos/598e35fb99d76447c4eb1f28/master/pass/phonepicutres-TA.jpg', '456 Elm St, City, Country', 'Smith', 'jane.smith@example.com', 'female', 1),
+(3, 'sam_jones', 'jonespass', 'Sam', '5551234567', 'https://static.vecteezy.com/system/resources/thumbnails/025/181/412/small/picture-a-captivating-scene-of-a-tranquil-lake-at-sunset-ai-generative-photo.jpg', '789 Oak St, City, Country', 'Jones', 'sam.jones@example.com', 'male', 0);
 
 -- --------------------------------------------------------
 
@@ -175,9 +179,15 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`ProductID`, `Name`, `Price`, `Description`, `Type`, `Picture`) VALUES
-(1, 'Pizza', '12.99', 'Delicious pepperoni pizza with mozzarella cheese and tomato sauce.', 'Food', NULL),
-(2, 'Burger', '9.99', 'Classic beef burger with lettuce, tomato, onion, and cheese.', 'Food', NULL),
-(3, 'Cola', '1.99', 'Test có dấu', 'Drink', NULL);
+(1, 'Pizza Margherita', '9.99', 'Classic Italian pizza with tomato sauce, mozzarella cheese, and basil leaves', 'MainDish', 'https://thucphamsieuthi.vn/wp-content/uploads/2021/08/banh-pizza-hai-san-dong-lanh.jpg'),
+(2, 'Grilled Salmon', '14.99', 'Fresh Atlantic salmon fillet grilled to perfection, served with steamed vegetables', 'MainDish', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzOmEEO-FcFa2WUDXUq-m-x49pWBO2aVj9-kO3fAAhFw&s'),
+(3, 'Caesar Salad', '8.99', 'Crisp romaine lettuce, garlic croutons, Parmesan cheese, and Caesar dressing', 'Breakfast', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjO0K6U0swheNli58EkhuQYzriPQEW965RmBKN-fvwtQ&s'),
+(4, 'Chicken Pad Thai', '11.99', 'Stir-fried rice noodles with chicken, eggs, tofu, bean sprouts, and peanuts in a tangy sauce', 'MainDish', 'chicken_pad_thai.jpg'),
+(5, 'Chocolate Cake', '6.99', 'Rich and moist chocolate cake topped with chocolate ganache and chocolate shavings', 'Desert', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUURUvVbbWXKEQ5wYxO2znhv6MmNuMdnumGH1Txq__8g&s'),
+(6, 'Iced Coffee', '3.99', 'Cold-brewed coffee served over ice, with optional milk and sweetener', 'Drink', 'https://images.immediate.co.uk/production/volatile/sites/30/2022/04/Iced-Caramel-Macchiato-f4a10f9.jpg?quality=90&resize=556,505'),
+(7, 'Mojito', '7.99', 'Classic Cuban cocktail made with white rum, fresh mint, lime juice, sugar, and soda water', 'Drink', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREh2596vQ31wQAJQr9ZMwScMoBSPTiNijHEb7dm0CnjA&s'),
+(8, 'Green Smoothie', '5.99', 'Blend of spinach, kale, banana, pineapple, and coconut water, packed with nutrients', 'Drink', 'https://cdn.loveandlemons.com/wp-content/uploads/2022/12/green-smoothie-recipes.jpg'),
+(9, 'Craft Beer Sampler', '12.99', 'Selection of locally brewed craft beers, perfect for tasting different styles', 'Drink', 'https://m.media-amazon.com/images/I/91bB21LiEML._AC_UF350,350_QL80_.jpg');
 
 -- --------------------------------------------------------
 

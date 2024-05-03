@@ -3,13 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=, initial-scale=1.0">
-    <title>Menu</title>
-</head>
 <?php
     require ('View/user/layouts/navbar.php'); 
 ?>
-<body>
-
     <style>
         /* CSS for layout */
         body {
@@ -299,10 +295,3 @@
     </script>
 </body>
 </html>
-
-    
-</body>
-</html>
-<?php
-    require ('View/user/layouts/footer.php'); 
-?>

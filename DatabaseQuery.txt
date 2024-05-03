@@ -5,6 +5,10 @@ CREATE TABLE member (
     Name varchar(255),
     Phoneno varchar(255),
     Avatar varchar(500),
+    Address varchar(500),
+    LastName varchar(255),
+    Email varchar(255),
+    Gender varchar(255),
     AccessLevel int
 );
 
@@ -64,12 +68,14 @@ CREATE TABLE news(
 
 
 
-INSERT INTO member (UserID, Username, Password, Name, Phoneno, Avatar, AccessLevel)
-VALUES (1, 'john', '123', 'John Doe', '123-456-7890', '', 1);
-INSERT INTO member (UserID, Username, Password, Name, Phoneno, Avatar, AccessLevel)
-VALUES (2, 'smith', 'abc', 'Jane Smith', '987-654-3210', '', 1);
-INSERT INTO member (UserID, Username, Password, Name, Phoneno, Avatar, AccessLevel)
-VALUES (3, 'bob_jackson', '123', 'Bob Jackson', '555-555-5555', '', 0);
+INSERT INTO member (UserID, Username, Password, Name, Phoneno, Avatar, Address, LastName, Email, Gender, AccessLevel)
+VALUES (1, 'john', '123', 'John', '1234567890', 'https://wallpapers.com/images/featured/picture-en3dnh2zi84sgt3t.jpg', 'male', 1);
+
+INSERT INTO member (UserID, Username, Password, Name, Phoneno, Avatar, Address, LastName, Email, Gender, AccessLevel)
+VALUES (2, 'jane_smith', 'smithy456', 'Jane', '0987654321', 'https://media.wired.com/photos/598e35fb99d76447c4eb1f28/master/pass/phonepicutres-TA.jpg', '456 Elm St, City, Country', 'Smith', 'jane.smith@example.com', 'female', 1);
+
+INSERT INTO member (UserID, Username, Password, Name, Phoneno, Avatar, Address, LastName, Email, Gender, AccessLevel)
+VALUES (3, 'sam_jones', 'jonespass', 'Sam', '5551234567', 'https://static.vecteezy.com/system/resources/thumbnails/025/181/412/small/picture-a-captivating-scene-of-a-tranquil-lake-at-sunset-ai-generative-photo.jpg', '789 Oak St, City, Country', 'Jones', 'sam.jones@example.com', 'male', 0);
 
 INSERT INTO cart (CartID, ExportDate, UserID)
 VALUES (1, NULL, 1);
@@ -78,12 +84,32 @@ VALUES (2, '2024-04-05', 2);
 INSERT INTO cart (CartID, ExportDate, UserID)
 VALUES (3, '2024-04-05', 3);
 
-INSERT INTO product (ProductID, Name, Price, Description, Type)
-VALUES (1, 'Pizza', '12.99', 'Delicious pepperoni pizza with mozzarella cheese and tomato sauce.', 'Food');
-INSERT INTO product (ProductID, Name, Price, Description, Type)
-VALUES (2, 'Burger', '9.99', 'Classic beef burger with lettuce, tomato, onion, and cheese.', 'Food');
-INSERT INTO product (ProductID, Name, Price, Description, Type)
-VALUES (3, 'Cola', '1.99', 'Test có dấu', 'Drink');
+INSERT INTO product (ProductID, Name, Price, Description, Type, Picture)
+VALUES (1,'Pizza Margherita', '9.99', 'Classic Italian pizza with tomato sauce, mozzarella cheese, and basil leaves', 'MainDish', 'https://thucphamsieuthi.vn/wp-content/uploads/2021/08/banh-pizza-hai-san-dong-lanh.jpg');
+
+INSERT INTO product (ProductID, Name, Price, Description, Type, Picture)
+VALUES (2, 'Grilled Salmon', '14.99', 'Fresh Atlantic salmon fillet grilled to perfection, served with steamed vegetables', 'MainDish', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzOmEEO-FcFa2WUDXUq-m-x49pWBO2aVj9-kO3fAAhFw&s');
+
+INSERT INTO product (ProductID, Name, Price, Description, Type, Picture)
+VALUES (3, 'Caesar Salad', '8.99', 'Crisp romaine lettuce, garlic croutons, Parmesan cheese, and Caesar dressing', 'Breakfast', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjO0K6U0swheNli58EkhuQYzriPQEW965RmBKN-fvwtQ&s');
+
+INSERT INTO product (ProductID, Name, Price, Description, Type, Picture)
+VALUES (4, 'Chicken Pad Thai', '11.99', 'Stir-fried rice noodles with chicken, eggs, tofu, bean sprouts, and peanuts in a tangy sauce', 'MainDish', 'chicken_pad_thai.jpg');
+
+INSERT INTO product (ProductID, Name, Price, Description, Type, Picture)
+VALUES (5, 'Chocolate Cake', '6.99', 'Rich and moist chocolate cake topped with chocolate ganache and chocolate shavings', 'Desert', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUURUvVbbWXKEQ5wYxO2znhv6MmNuMdnumGH1Txq__8g&s');
+
+INSERT INTO product (ProductID, Name, Price, Description, Type, Picture)
+VALUES (6, 'Iced Coffee', '3.99', 'Cold-brewed coffee served over ice, with optional milk and sweetener', 'Drink', 'https://images.immediate.co.uk/production/volatile/sites/30/2022/04/Iced-Caramel-Macchiato-f4a10f9.jpg?quality=90&resize=556,505');
+
+INSERT INTO product (ProductID, Name, Price, Description, Type, Picture)
+VALUES (7, 'Mojito', '7.99', 'Classic Cuban cocktail made with white rum, fresh mint, lime juice, sugar, and soda water', 'Drink', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREh2596vQ31wQAJQr9ZMwScMoBSPTiNijHEb7dm0CnjA&s');
+
+INSERT INTO product (ProductID, Name, Price, Description, Type, Picture)
+VALUES (8, 'Green Smoothie', '5.99', 'Blend of spinach, kale, banana, pineapple, and coconut water, packed with nutrients', 'Drink', 'https://cdn.loveandlemons.com/wp-content/uploads/2022/12/green-smoothie-recipes.jpg');
+
+INSERT INTO product (ProductID, Name, Price, Description, Type, Picture)
+VALUES (9, 'Craft Beer Sampler', '12.99', 'Selection of locally brewed craft beers, perfect for tasting different styles', 'Drink', 'https://m.media-amazon.com/images/I/91bB21LiEML._AC_UF350,350_QL80_.jpg');
 
 INSERT INTO cartitem (ProductID, CartID, Amount)
 VALUES (1, 1, 2);

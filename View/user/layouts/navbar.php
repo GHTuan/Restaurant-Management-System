@@ -100,8 +100,9 @@
         <?php
         if (isset($_SESSION['Name'])) {
           echo "<div class=dropdown>";
-          echo "<span><i class='fa-solid fa-user-tie'></i> " . $_SESSION['Name'] . "</span>";
+          echo "<span><i class='fa-solid fa-user-tie'></i> " . $_SESSION['Name'] . "</span>";;
           echo "<div class=dropdown-content>";
+          echo '<a class="nav-link active" aria-current="page" href="index.php?controller=user" style="margin-right: 10px;"><i class="fa-solid fa-right-from-bracket"></i> Edit Info</a>';
           echo '<a class="nav-link active" aria-current="page" href="index.php?controller=login&action=logout" style="margin-right: 10px;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>';
           echo "</div>";
           echo "</div>";
