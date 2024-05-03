@@ -296,8 +296,6 @@ require('View/admin/layouts/navbar.php');
         const searchInput = document.querySelector('input[type="search"]');
         searchInput.addEventListener("input", (e) => {
             const value = e.target.value;
-            console.log(value);
-            console.log(currentAccountList, currentMode)
             const filteredData = currentAccountList.filter((item) => {
                 const keys = Object.keys(item);
                 for (let i = 0; i < keys.length; i++) {
