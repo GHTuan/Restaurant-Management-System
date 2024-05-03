@@ -22,7 +22,7 @@ switch($_SERVER['REQUEST_METHOD'])
             case 'load':
                 require_once('Model/UserModel.php');
                 $model = new UserModel();
-                $cartItems = $model -> loadCartItems($_SESSION['ID']);
+                $cartItems = $model -> loadCartItems();
                 // $cartItems = $model -> loadCartItems(1);
                 echo json_encode(['cartItems' => $cartItems, 'message' => 'Loaded successfully']);
                 break;
@@ -35,14 +35,14 @@ switch($_SERVER['REQUEST_METHOD'])
                 }
                 require_once('Model/UserModel.php');
                 $model = new UserModel();
-                $cartItems = $model -> updateCartItems($_SESSION['ID'], $_POST['productID'], $_POST['amount'], $_POST['cartId']);
+                $cartItems = $model -> updateCartItems($_POST['productID'], $_POST['amount']);
                 // $cartItems = $model -> updateCartItems(1, $_POST['productID'], $_POST['amount'], $_POST['cartId']);
                 echo json_encode(['cartItems' => $cartItems, 'message' => 'Updated successfully']);
                 break;
             case 'clear':
                 require_once('Model/UserModel.php');
                 $model = new UserModel();
-                $cartItems = $model -> clearCart($_SESSION['ID']);
+                $cartItems = $model -> clearCart();
                 // $cartItems = $model -> clearCart(1);
                 echo json_encode(['cartItems' => $cartItems, 'message' => 'Cleared successfully']);
                 break;

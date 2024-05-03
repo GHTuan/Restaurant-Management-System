@@ -176,6 +176,7 @@ require('View/user/layouts/navbar2.php');
                 api: 'cart',
                 action: 'load'
             }).done((response) => {
+                console.log(response);
                 if (response.CartID) {
                     cartID = response.CartID;
                 }
@@ -196,6 +197,8 @@ require('View/user/layouts/navbar2.php');
                     });
 
                 }
+            }).fail((response) => {
+                console.log("Fail: ", response);
             });
 
             // Continue Shopping button

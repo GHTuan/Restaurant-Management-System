@@ -1,8 +1,15 @@
 <?php
 require_once('Model/BaseModel.php');
+require_once('Model/CartModel.php');
 class UserModel extends BaseModel{
 
 	const TABLE = 'member';
+    private $cartModel;
+
+    public function __construct(){
+        parent::__construct();
+        $this -> cartModel = new CartModel();
+    }
 
     // This is for testing purposes only, don't use this
 	public function getAll($selct = ['*'], $orderBy = [], $limit = 10){
@@ -87,79 +94,25 @@ class UserModel extends BaseModel{
         return $data;
     }
 
-    public function loadProductInfo($productID){
-        // Select the product in product table with ProductID
-        $sql = "SELECT * FROM product WHERE ProductID = $productID";
-        $result = $this -> _query($sql);
-        $row = $result->fetch_assoc();
-        return $row;
-    }
-    public function loadCartItems($userID){
-        // Select the cart in cart table with null ExportDate
-        $sql = "SELECT * FROM cart WHERE UserID = $userID AND ExportDate IS NULL";
-        $result = $this -> _query($sql);
-        $row = $result->fetch_assoc();
-
+    public function loadCartItems(){
+        $cartID = $this -> cartModel -> getCartId($_SESSION['ID']);
+        
         // If there is no cart, create a new cart
-        if ((bool)$row == False){
-            $sql = "INSERT INTO cart (UserID) VALUES ($userID)";
-            $this -> _query($sql);
-            $result = $this -> _query($sql);
-            $row = $result->fetch_assoc();
+        if ($cartID == null){
+            $cartID = $this -> cartModel -> create($this -> cartModel::TABLE, ['UserID' => $_SESSION['ID']]) -> fetch_assoc()['CartID'];
         }
-        // Select all the items in the cart
-        $cartID = $row['CartID'];
-        $sql = "SELECT * FROM cartitem WHERE CartID = $cartID";
-        $result = $this -> _query($sql);
-        $data = [];
-        while ($row = $result->fetch_assoc()){
-            $item = [
-                'Product' => $this -> loadProductInfo($row['ProductID']),
-                'CartID' => $row['CartID'],
-                'Amount' => $row['Amount']
-            ];
-            $data[] = $item;
-        }
-        return $data;
+
+        return $this -> cartModel -> loadCartItems($cartID);
     }
 
-    public function updateCartItems($userID, $productID, $amount, $cartID){
-        if ($amount == 0)
-        {
-            // If amount is 0, delete the item from cartitem
-            $sql = "DELETE FROM cartitem WHERE CartID = $cartID AND ProductID = $productID";
-            $this -> _query($sql);
-        }
-        else 
-        {
-            $sql = "SELECT * FROM cartitem WHERE CartID = $cartID AND ProductID = $productID";
-            $result = $this -> _query($sql);
-
-            // if the item is not in the cart, insert a new item
-            if ($result->num_rows == 0){
-                $sql = "INSERT INTO cartitem (CartID, ProductID, Amount) VALUES ($cartID, $productID, $amount)";
-                $this -> _query($sql);
-            }
-            else 
-            {
-                // if the item is in the cart, update the amount
-                $sql = "UPDATE cartitem SET Amount = $amount WHERE CartID = $cartID AND ProductID = $productID";
-                $this -> _query($sql);
-            }
-        }
-        return $this -> loadCartItems($userID);
+    public function updateCartItems($productID, $amount){
+        $cartID = $this -> cartModel -> getCartId($_SESSION['ID']);
+        return $this -> cartModel -> updateCartItems($productID, $amount, $cartID);
     }
-    
-    public function clearCart($userID){
-        // Select the cart in cart table with null ExportDate
-        $sql = "SELECT * FROM cart WHERE UserID = $userID AND ExportDate IS NULL";
-        $result = $this -> _query($sql);
-        $row = $result->fetch_assoc();
-        $cartID = $row['CartID'];
-        // Delete all the items in the cart
-        $sql = "DELETE FROM cartitem WHERE CartID = $cartID";
-        $this -> _query($sql);
-        return [];
+
+    public function clearCart(){
+        $cartID = $this -> cartModel -> getCartId($_SESSION['ID']);
+        return $this -> cartModel -> clearCart($cartID);
     }
 
     public function editUser($userID, $Name, $LastName, $Email, $Phoneno, $Gender, $Address, $Avatar, $AccessLevel){
