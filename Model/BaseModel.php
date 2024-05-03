@@ -36,7 +36,7 @@ class BaseModel extends DataBase{
     }
 
     public function find($table, $idName, $idValue){
-        $sql = "SELECT * FROM {$table} WHERE {$idName} = {$idValue}";
+        $sql = "SELECT * FROM {$table} WHERE {$idName} = '{$idValue}'";
         $result = $this -> _query($sql);
         return mysqli_fetch_assoc($result);
     }
@@ -48,7 +48,7 @@ class BaseModel extends DataBase{
         }, array_values($data));
         $newValue = implode(',', $newValueArray);
         $sql = "INSERT INTO {$table}({$key}) VALUES ({$newValue})";
-        $this -> _query($sql);       
+        return $this -> _query($sql);       
     }
     public function update($table, $idName ,$idValue, $data = []){
         
@@ -59,14 +59,14 @@ class BaseModel extends DataBase{
         }
         $dataSetStr = implode(',',$dataSet);
 
-        $sql = "UPDATE {$table} SET {$dataSetStr} WHERE {$idName} = {$idValue}";
+        $sql = "UPDATE {$table} SET {$dataSetStr} WHERE {$idName} = '{$idValue}'";
 
-        $this -> _query($sql);
+        return $this -> _query($sql);
 
     }
     public function delete($table, $idName, $idValue){
-        $sql = "DELETE FROM {$table} WHERE {$idName} = {$idValue}";
-        $this -> _query($sql);
+        $sql = "DELETE FROM {$table} WHERE {$idName} = '{$idValue}'";
+        return $this -> _query($sql);
     }
     public function _query($sql){
         return mysqli_query($this -> conn, $sql);
