@@ -6,7 +6,7 @@
 
 <?php
 require('View/admin/layouts/navbar.php');
-// print_r($data)
+//print_r($data)
 ?>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
@@ -193,120 +193,27 @@ body {
         </form>
     </div>
 </nav>
-    <div class="row">
+<div class="row">
+    <?php foreach ($data as $product) { ?>
         <div class="col-lg-3 col-sm-6 d-flex flex-column align-items-center justify-content-center product-item my-3">
-            <div class="product"> <img src="https://cdn.tgdd.vn/2022/01/CookDish/cach-lam-com-ga-chien-xoi-mo-ngon-da-vang-gion-rum-dom-gian-avt-1200x676.jpg" alt="Cơm gà xối mỡ">
+            <div class="product">
+                <img src="<?php echo $product['Picture']; ?>" alt="<?php echo $product['Name']; ?>">
                 <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
                     <li class="icon"><span class="fas fa-expand-arrows-alt"></span></li>
                     <li class="icon mx-3"><span class="far fa-heart"></span></li>
                     <li class="icon"><span class="fas fa-shopping-bag"></span></li>
                 </ul>
             </div>
-            <div class="tag bg-red">sale</div>
-            <div class="title pt-4 pb-1 fs-5">Cơm Gà Xối Mỡ</div>
+            <?php if(isset($product['Tag']) && !empty($product['Tag'])) { ?>
+                <div class="tag bg-<?php echo $product['Tag']['Color']; ?>"><?php echo $product['Tag']['Text']; ?></div>
+            <?php } ?>
+            <div class="title pt-4 pb-1 fs-5"><?php echo $product['Name']; ?></div>
             <div class="d-flex align-content-center justify-content-center"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> </div>
-            <div class="price fs-5">25.000 VND</div>
+            <div class="price fs-5"><?php echo $product['Price']; ?> VND</div>
             <button class="btn btn-primary mt-3">Mua ngay</button>
         </div>
-        <div class="col-lg-3 col-sm-6 d-flex flex-column align-items-center justify-content-center product-item my-3">
-            <div class="product"> <img src="https://file.hstatic.net/200000459373/article/9e460b450dc12519d2f0ef143819831f_8f3645a6459041489c05eb2ddf08b530.jpg" alt="Cơm Chiên Dương Châu">
-                <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
-                    <li class="icon"><span class="fas fa-expand-arrows-alt"></span></li>
-                    <li class="icon mx-3"><span class="far fa-heart"></span></li>
-                    <li class="icon"><span class="fas fa-shopping-bag"></span></li>
-                </ul>
-            </div>
-            <div class="tag bg-red">Sale</div>
-            <div class="title pt-4 pb-1 fs-5">Cơm Chiên Dương Châu</div>
-            <div class="d-flex align-content-center justify-content-center"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> </div>
-            <div class="price fs-5">25.000 VND</div>
-            <button class="btn btn-primary mt-3">Mua ngay</button>
-        </div>
-        <div class="col-lg-3 col-sm-6 d-flex flex-column align-items-center justify-content-center product-item my-3">
-            <div class="product"> <img src="https://cdn.tgdd.vn/Files/2017/03/24/964440/cach-lam-bun-thit-nuong-ngon-7_760x450.jpg" alt="Bún thịt nướng">
-                <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
-                    <li class="icon"><span class="fas fa-expand-arrows-alt"></span></li>
-                    <li class="icon mx-3"><span class="far fa-heart"></span></li>
-                    <li class="icon"><span class="fas fa-shopping-bag"></span></li>
-                </ul>
-            </div>
-            <div class="tag bg-green">new</div>
-            <div class="title pt-4 pb-1 fs-5"> Bún Thịt Nướng</div>
-            <div class="d-flex align-content-center justify-content-center"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> </div>
-            <div class="price fs-5">20.000 VND</div>
-            <button class="btn btn-primary mt-3">Mua ngay</button>
-        </div>
-        <div class="col-lg-3 col-sm-6 d-flex flex-column align-items-center justify-content-center product-item my-3">
-            <div class="product"> <img src="https://statics.vinwonders.com/bun-cha-ha-noi-3_1688011791.jpg" alt="Bún chả hà nội">
-                <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
-                    <li class="icon"><span class="fas fa-expand-arrows-alt"></span></li>
-                    <li class="icon mx-3"><span class="far fa-heart"></span></li>
-                    <li class="icon"><span class="fas fa-shopping-bag"></span></li>
-                </ul>
-            </div>
-            <div class="title pt-4 pb-1 fs-5">Bún Chả Hà Nội</div>
-            <div class="d-flex align-content-center justify-content-center"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> </div>
-            <div class="price fs-5"> 30.000 VND</div>
-            <button class="btn btn-primary mt-3">Mua ngay</button>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-3 col-sm-6 d-flex flex-column align-items-center justify-content-center product-item my-3">
-            <div class="product"> <img src="https://hoasenfoods.vn/wp-content/uploads/2024/01/bun-bo-hue.jpg" alt="Bún bò huế">
-                <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
-                    <li class="icon"><span class="fas fa-expand-arrows-alt"></span></li>
-                    <li class="icon mx-3"><span class="far fa-heart"></span></li>
-                    <li class="icon"><span class="fas fa-shopping-bag"></span></li>
-                </ul>
-            </div>
-            <div class="tag bg-red">sale</div>
-            <div class="title pt-4 pb-1 fs-5">Bún Bò Huế</div>
-            <div class="d-flex align-content-center justify-content-center"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> </div>
-            <div class="price fs-5">30.000 VND</div>
-            <button class="btn btn-primary mt-3">Mua ngay</button>
-        </div>
-        <div class="col-lg-3 col-sm-6 d-flex flex-column align-items-center justify-content-center product-item my-3">
-            <div class="product"> <img src="https://tiki.vn/blog/wp-content/uploads/2023/07/thumb.jpeg" alt="Bún riêu cua">
-                <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
-                    <li class="icon"><span class="fas fa-expand-arrows-alt"></span></li>
-                    <li class="icon mx-3"><span class="far fa-heart"></span></li>
-                    <li class="icon"><span class="fas fa-shopping-bag"></span></li>
-                </ul>
-            </div>
-            <div class="tag bg-black">out of stock</div>
-            <div class="title pt-4 pb-1 fs-5">Bún Riêu Cua</div>
-            <div class="d-flex align-content-center justify-content-center"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> </div>
-            <div class="price fs-5">30.000 VND</div>
-            <button class="btn btn-primary mt-3">Mua Ngay</button>
-        </div>
-        <div class="col-lg-3 col-sm-6 d-flex flex-column align-items-center justify-content-center product-item my-3">
-            <div class="product"> <img src="https://cdn.tgdd.vn/Files/2019/07/15/1179640/that-chat-tinh-anh-em-voi-mon-lau-hai-san-bang-goi-lau-sg-food-202202231324352858.jpg" alt="Lẩu hải sản">
-                <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
-                    <li class="icon"><span class="fas fa-expand-arrows-alt"></span></li>
-                    <li class="icon mx-3"><span class="far fa-heart"></span></li>
-                    <li class="icon"><span class="fas fa-shopping-bag"></span></li>
-                </ul>
-            </div>
-            <div class="title pt-4 pb-1 fs-5"> Lẩu Hải Sản</div>
-            <div class="d-flex align-content-center justify-content-center"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> </div>
-            <div class="price fs-5">50.000 VND</div>
-            <button class="btn btn-primary mt-3">Mua ngay</button>
-        </div>
-        <div class="col-lg-3 col-sm-6 d-flex flex-column align-items-center justify-content-center product-item my-3">
-            <div class="product"> <img src="https://cdn.sgtiepthi.vn/wp-content/uploads/2020/12/T7_laumuc_thuanphucvungtau.jpg" alt="Lẩu mực">
-                <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
-                    <li class="icon"><span class="fas fa-expand-arrows-alt"></span></li>
-                    <li class="icon mx-3"><span class="far fa-heart"></span></li>
-                    <li class="icon"><span class="fas fa-shopping-bag"></span></li>
-                </ul>
-            </div>
-            <div class="tag bg-green">new</div>
-            <div class="title pt-4 pb-1 fs-5">Lẩu mực</div>
-            <div class="d-flex align-content-center justify-content-center"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> </div>
-            <div class="price fs-5">50.000 VND</div>
-            <button class="btn btn-primary mt-3">Mua ngay</button>
-        </div>
-    </div>
+    <?php } ?>
+</div>
 
     <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center mt-4">
