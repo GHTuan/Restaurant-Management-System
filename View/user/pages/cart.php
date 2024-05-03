@@ -28,7 +28,7 @@ require('View/user/layouts/navbar2.php');
 <body>
     <main class="container-fluid">
         <div class="row">
-            <div class="container col-lg-8">
+            <div class="container col-lg-8 mb-5">
                 <h1>Cart</h1>
                 <table class="table">
                     <thead class="thead-dark">
@@ -78,6 +78,7 @@ require('View/user/layouts/navbar2.php');
     <script>
         let userID = <?php echo $_SESSION['ID'] ?>;
         let cartID = null;
+        let checkoutPrice = 0;
         const changeQuantity = (productID, quantity, CartID) => {
             $.post('APISelection.php', {
                 api: 'cart',
@@ -177,6 +178,7 @@ require('View/user/layouts/navbar2.php');
             }
             subtotalPrice.innerText = "$" + subtotal.toFixed(2);
             totalPrice.innerText = "$" + (subtotal + Number(document.querySelector('input[name="shipping"]:checked').value)).toFixed(2);
+            checkoutPrice = subtotal + Number(document.querySelector('input[name="shipping"]:checked').value);
         }
 
         $(document).ready(function() {
@@ -216,6 +218,10 @@ require('View/user/layouts/navbar2.php');
         });
 
         $("#proceed").click(() => {
+            if (checkoutPrice == 0) {
+                alert('Please add items to cart before proceeding to checkout');
+                return;
+            }
             $.post('APISelection.php', {
                 api: 'cart',
                 action: 'checkout',
