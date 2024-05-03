@@ -57,17 +57,6 @@ class CartModel extends BaseModel
 
     public function loadCartItems($cartID)
     {
-        // Select the cart in cart table with null ExportDate
-        // $sql = "SELECT * FROM cart WHERE UserID = $userID AND ExportDate IS NULL";
-        // $result = $this->_query($sql);
-        // $row = $result->fetch_assoc();
-
-        // // If there is no cart, create a new cart
-        // if ((bool)$row == False) {
-        //     $row = $this->create(self::TABLE, ['UserID' => $userID])->fetch_assoc();
-        // }
-        // Select all the items in the cart
-        // $cartID = $row['CartID'];
         $sql = "SELECT * FROM cartitem WHERE CartID = $cartID";
         $result = $this->_query($sql);
         $data = [];
@@ -107,14 +96,6 @@ class CartModel extends BaseModel
 
     public function clearCart($cartID)
     {
-        // Select the cart in cart table with null ExportDate
-        // $sql = "SELECT * FROM cart WHERE UserID = $userID AND ExportDate IS NULL";
-        // $result = $this->_query($sql);
-        // $row = $result->fetch_assoc();
-        // $cartID = $row['CartID'];
-        // Delete all the items in the cart
-        // $sql = "DELETE FROM cartitem WHERE CartID = $cartID";
-        // $this->_query($sql);
         $this -> delete('cartitem', 'CartID', $cartID);
         return [];
     }
