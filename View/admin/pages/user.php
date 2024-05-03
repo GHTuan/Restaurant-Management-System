@@ -8,6 +8,11 @@
         .page-item {
             cursor: pointer;
         }
+
+        .input-group .form-outline {
+            width: 80%;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <?php
@@ -26,15 +31,23 @@ require('View/admin/layouts/navbar.php');
         </div>
     </div>
 
-    <table class="table">
-        <thead class="thead-dark">
-            <tr>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="container-fluid">
+        <div class="input-group">
+            <div class="form-outline" data-mdb-input-init>
+                <input type="search" id="form1" class="form-control" />
+            </div>
+        </div>
 
-        </tbody>
-    </table>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
 
     <div class="modal" id="myModal">
         <div class="modal-dialog">
@@ -82,12 +95,10 @@ require('View/admin/layouts/navbar.php');
             data.forEach((item) => {
                 let row = '<tr>';
                 keys.forEach((key) => {
-                    if (key === 'AccessLevel')
-                    {
+                    if (key === 'AccessLevel') {
                         if (item[key] == 0) row += `<td style="color: red;">Blocked</td>`;
                         else row += `<td style="color: green;">Unrestricted</td>`;
-                    }
-                    else row += `<td>${item[key]}</td>`;
+                    } else row += `<td>${item[key]}</td>`;
                 });
                 const id = item[Object.keys(item)[0]];
                 row += `<td>
@@ -97,8 +108,6 @@ require('View/admin/layouts/navbar.php');
                 row += '</tr>';
                 tbody.innerHTML += row;
             });
-            currentAccountList = data;
-            currentMode = type;
         }
 
         const renderEditForm = (data) => {
@@ -122,9 +131,7 @@ require('View/admin/layouts/navbar.php');
                         </select>
                     </div>`;
                     return;
-                }
-                else
-                {
+                } else {
                     form.innerHTML += `<div class="mb-3">
                         <label for="${key}" class="form-label">${key}</label>
                         <input type="text" class="form-control" id="${key}" value="${data[key]}" ${disabled}>
@@ -139,7 +146,7 @@ require('View/admin/layouts/navbar.php');
             const keys = Object.keys(currentAccountList[0]);
             keys.shift();
             keys.forEach((key) => {
-                if (key === 'AccessLevel'){
+                if (key === 'AccessLevel') {
                     form.innerHTML += `<div class="mb-3">
                         <label for="${key}" class="form-label">${key}</label>
                         <select class="form-select" id="${key}">
@@ -148,9 +155,7 @@ require('View/admin/layouts/navbar.php');
                         </select>
                     </div>`;
                     return;
-                }
-                else 
-                {
+                } else {
                     form.innerHTML += `<div class="mb-3">
                         <label for="${key}" class="form-label">${key}</label>
                         <input type="text" class="form-control" id="${key}">
@@ -177,7 +182,7 @@ require('View/admin/layouts/navbar.php');
                     type: currentMode,
                     data: data
                 }).done((response) => {
-                    console.log("Receive data when sending addAccount action: ",response);
+                    console.log("Receive data when sending addAccount action: ", response);
                     if (response.message == 'Success') {
                         $('#myModal').modal('hide');
                         if (currentMode == 'user') {
@@ -254,6 +259,8 @@ require('View/admin/layouts/navbar.php');
                 api: 'accountManagement',
                 action: 'getUserAccounts'
             }).done((response) => {
+                currentAccountList = response.data;
+                currentMode = 'user';
                 loadAccountList(response.data, 'user');
             }).fail((response) => {
                 window.alert("Fail: ", response.responseText);
@@ -265,6 +272,8 @@ require('View/admin/layouts/navbar.php');
                 api: 'accountManagement',
                 action: 'getAdminAccounts'
             }).done((response) => {
+                currentAccountList = response.data;
+                currentMode = 'admin';
                 loadAccountList(response.data, 'admin');
             }).fail((response) => {
                 window.alert("Fail: ", response.responseText);
@@ -282,6 +291,24 @@ require('View/admin/layouts/navbar.php');
             $("#user-account").removeClass("active");
             loadAdminAccounts();
         });
+
+        // Filter feature
+        const searchInput = document.querySelector('input[type="search"]');
+        searchInput.addEventListener("input", (e) => {
+            const value = e.target.value;
+            console.log(value);
+            console.log(currentAccountList, currentMode)
+            const filteredData = currentAccountList.filter((item) => {
+                const keys = Object.keys(item);
+                for (let i = 0; i < keys.length; i++) {
+                    if (item[keys[i]].toString().toLowerCase().includes(value.toLowerCase())) {
+                        return true;
+                    }
+                }
+                return false;
+            });
+            loadAccountList(filteredData, currentMode);
+        })
     </script>
 </body>
 
