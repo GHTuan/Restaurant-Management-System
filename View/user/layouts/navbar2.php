@@ -13,12 +13,10 @@
     }
 
     #homepage-login div {
-      height: 100%;
-      box-sizing: border-box;
       padding: 6px;
     }
 
-    #homepage-login div:hover {
+    .dropdown-content div:hover {
       background-color: aquamarine;
       border-radius: 5px;
     }
@@ -96,9 +94,14 @@
         <?php
         if (isset($_SESSION['Name'])) {
           echo "<div class=dropdown>";
-          echo "<span><i class='fa-solid fa-user-tie'></i> " . $_SESSION['Name'] . "</span>";
+          echo "<span><i class='fa-solid fa-user-tie'></i> " . $_SESSION['Name'] . "</span>";;
           echo "<div class=dropdown-content>";
+          echo "<div>";
+          echo '<a class="nav-link active" aria-current="page" href="index.php?controller=user" style="margin-right: 10px;"><i class="fa-solid fa-user-pen"></i> Edit Info</a>';
+          echo "</div>";
+          echo "<div>";
           echo '<a class="nav-link active" aria-current="page" href="index.php?controller=login&action=logout" style="margin-right: 10px;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>';
+          echo "</div>";
           echo "</div>";
           echo "</div>";
         } else {
@@ -107,7 +110,6 @@
           echo '</div>';
         }
         ?>
-
       </div>
     </div>
   </nav>
