@@ -74,11 +74,14 @@ require('View/user/layouts/navbar2.php');
                 <button class="btn btn-success" id="proceed" style="margin-top: 5px;"><i class="fa-solid fa-credit-card"></i> Proceed to Checkout</button>
             </div>
         </div>
+
+    </div>
     </main>
     <script>
         let userID = <?php echo $_SESSION['ID'] ?>;
         let cartID = null;
         let checkoutPrice = 0;
+        let address = '';
         const changeQuantity = (productID, quantity, CartID) => {
             $.post('APISelection.php', {
                 api: 'cart',
@@ -191,6 +194,7 @@ require('View/user/layouts/navbar2.php');
                     cartID = response.CartID;
                 }
                 if (response.cartItems) {
+                    address = response.address;
                     showCartItem(response.cartItems);
                     // Clear Cart button
                     $('#clear-cart').click(() => {
@@ -222,6 +226,9 @@ require('View/user/layouts/navbar2.php');
                 alert('Please add items to cart before proceeding to checkout');
                 return;
             }
+            if (confirm('Proceed to checkout?') == false) {
+                return;
+            }
             $.post('APISelection.php', {
                 api: 'cart',
                 action: 'checkout',
@@ -229,8 +236,7 @@ require('View/user/layouts/navbar2.php');
             }).done((response) => {
                 console.log(response);
                 if (response.success) {
-                    alert('Checkout successful');
-                    window.location.href = 'index.php?controller=order';
+                    successfulRendering();
                 } else {
                     alert('Checkout failed');
                 }
@@ -239,6 +245,23 @@ require('View/user/layouts/navbar2.php');
                 alert("There was an error processing your request. Please try again later.");
             });
         });
+
+        const successfulRendering = () => {
+            $("main").empty();
+            let div = document.createElement('div');
+            div.classList.add('container');
+            div.classList.add('col-lg-8');
+            let h1 = document.createElement('h1');
+            h1.innerText = 'Checkout Successful';
+            div.appendChild(h1);
+            let p = document.createElement('p');
+            p.innerText = 'Your order has been successfully placed. Your order will be delivered to the following address:';
+            div.appendChild(p);
+            let addressDiv = document.createElement('div');
+            addressDiv.innerText = address;
+            div.appendChild(addressDiv);
+            $("main").append(div);
+        }
     </script>
 </body>
 

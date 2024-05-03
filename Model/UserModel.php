@@ -125,4 +125,9 @@ class UserModel extends BaseModel{
         $this -> update(self::TABLE,"UserID" ,$userID,$inputData);
         return True;
     }
+
+    public function getUserAddress(){
+        $result = $this -> find(self::TABLE, 'UserID', $_SESSION['ID']);
+        return $result['Address'];
+    }
 }

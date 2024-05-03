@@ -61,7 +61,7 @@
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <div class="container d-flex">
+                    <div class="container d-flex justify-content-between">
                         <div id="user-zone" class="mb-2"></div>
                         <div id="cart-summary"></div>
                     </div>
@@ -308,6 +308,7 @@
                         <p class="card-text">Cart ID: ${data.CardID}</p>
                         <p class="card-text">Export Date: ${isExported ? data.ExportDate : 'Not Exported'}</p>
                         <p class="card-text">Total Price: $${products.reduce((acc, product) => acc + product.ProductInfo.Price * product.Amount, 0).toFixed(2)}</p>
+                        <p class="card-text">Address: ${data.UserInfo.Address}</p>
                     </div>
                 </div>
             `;

@@ -23,9 +23,10 @@ switch($_SERVER['REQUEST_METHOD'])
                 require_once('Model/UserModel.php');
                 $model = new UserModel();
                 $cartItems = $model -> loadCartItems();
+                $address = $model -> getUserAddress();
                 // $cartItems = $model -> loadCartItems(1);
-                echo json_encode(['cartItems' => $cartItems, 'message' => 'Loaded successfully']);
-                break;
+                echo json_encode(['cartItems' => $cartItems, 'address' => $address ,'message' => 'Loaded successfully']);
+                break; 
             case 'update':
                 if (!isset($_POST['productID']) || !isset($_POST['amount']) || !isset($_POST['cartId']))
                 {

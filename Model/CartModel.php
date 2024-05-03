@@ -102,6 +102,7 @@ class CartModel extends BaseModel
 
     public function deleteCart($cartID)
     {
+        $this -> delete('cartitem', 'CartID', $cartID);
         $this -> delete(self::TABLE, 'CartID', $cartID);
         return [];
     }
