@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/unorm@1.6.0/lib/unorm.min.js"></script>
 
 <?php
 require('View/admin/layouts/navbar.php');
@@ -179,11 +180,11 @@ body {
         </button>
         <div class="collapse navbar-collapse justify-content-center" id="myNav">
             <div class="navbar-nav"> 
-                <a class="nav-link active fs-5" aria-current="page" href="#">Tất cả</a> 
-                <a class="nav-link fs-5" href="#">Cơm</a> 
-                <a class="nav-link fs-5" href="#">Bún</a> 
-                <a class="nav-link fs-5" href="#">Lẩu</a> 
-                <a class="nav-link fs-5" href="#">Nước uống</a> 
+            <a id="Tất cả" class="nav-link active fs-5" aria-current="page" href="#">Tất cả</a> 
+            <a id="Cơm" class="nav-link fs-5" href="#">Cơm</a> 
+            <a id="Bún" class="nav-link fs-5" href="#">Bún</a> 
+            <a id="Lẩu" class="nav-link fs-5" href="#">Lẩu</a> 
+            <a id="Nước" class="nav-link fs-5" href="#">Nước uống</a>
                 <!-- Add the search form -->
             </div>
         </div>
@@ -199,9 +200,8 @@ body {
             <div class="product">
                 <img src="<?php echo $product['Picture']; ?>" alt="<?php echo $product['Name']; ?>">
                 <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
-                    <li class="icon"><span class="fas fa-expand-arrows-alt"></span></li>
-                    <li class="icon mx-3"><span class="far fa-heart"></span></li>
-                    <li class="icon"><span class="fas fa-shopping-bag"></span></li>
+                <li class="icon"><span class="fas fa-edit"></span></li>
+                <li class="icon mx-3"><span class="fas fa-trash-alt"></span></li>
                 </ul>
             </div>
             <?php if(isset($product['Tag']) && !empty($product['Tag'])) { ?>
@@ -210,7 +210,6 @@ body {
             <div class="title pt-4 pb-1 fs-5"><?php echo $product['Name']; ?></div>
             <div class="d-flex align-content-center justify-content-center"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> </div>
             <div class="price fs-5"><?php echo $product['Price']; ?> VND</div>
-            <button class="btn btn-primary mt-3">Mua ngay</button>
         </div>
     <?php } ?>
 </div>
@@ -232,6 +231,90 @@ body {
     </nav>
 
 </div>
+<script>
+    document.querySelectorAll('.nav-link').forEach(item => {
+        item.addEventListener('click', function() {
+        const type = this.id;
+        console.log('Sorting by: ' + type);
+
+        let filteredProducts;
+        if (type === 'Tất cả') {
+            // If 'Tất cả' is selected, display all the products
+            filteredProducts = <?php echo json_encode($data); ?>;
+        } else {
+            // Filter the products based on the selected type
+            filteredProducts = <?php echo json_encode($data); ?>.filter(product => {
+                return product.Type === type;
+            });
+        }
+
+        // Clear the current product display
+        document.querySelector('.row').innerHTML = '';
+
+            // Render the filtered products
+            filteredProducts.forEach(product => {
+                const productHTML = `
+                    <div class="col-lg-3 col-sm-6 d-flex flex-column align-items-center justify-content-center product-item my-3">
+                        <div class="product">
+                            <img src="${product.Picture}" alt="${product.Name}">
+                            <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
+                                <li class="icon"><span class="fas fa-edit"></span></li>
+                                <li class="icon mx-3"><span class="fas fa-trash-alt"></span></li>
+                            </ul>
+                        </div>
+                        ${product.Tag && !empty(product.Tag) ? `<div class="tag bg-${product.Tag.Color}">${product.Tag.Text}</div>` : ''}
+                        <div class="title pt-4 pb-1 fs-5">${product.Name}</div>
+                        <div class="d-flex align-content-center justify-content-center"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> </div>
+                        <div class="price fs-5">${product.Price} VND</div>
+                    </div>
+                `;
+                document.querySelector('.row').insertAdjacentHTML('beforeend', productHTML);
+            });
+        });
+    });
+
+            // Filter feature
+            const searchInput = document.querySelector('input[type="search"]');
+searchInput.addEventListener("input", (e) => {
+    const value = e.target.value.trim(); // Trim whitespace
+    const normalizedValue = unorm.nfd(value.toLowerCase()); // Normalize and convert search value to lowercase
+    const filteredData = <?php echo json_encode($data); ?>.filter((product) => {
+        // Normalize and convert product name to lowercase
+        const normalizedProductName = unorm.nfd(product.Name.toLowerCase());
+        // Check if the normalized product name contains the normalized search value
+        return normalizedProductName.includes(normalizedValue);
+    });
+    renderProducts(filteredData);
+});
+
+
+// Function to render filtered products
+function renderProducts(products) {
+    const productsContainer = document.querySelector('.row');
+    productsContainer.innerHTML = ''; // Clear existing products
+
+    products.forEach(product => {
+        const productHTML = `
+            <div class="col-lg-3 col-sm-6 d-flex flex-column align-items-center justify-content-center product-item my-3">
+                <div class="product">
+                    <img src="${product.Picture}" alt="${product.Name}">
+                    <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
+                        <li class="icon"><span class="fas fa-edit"></span></li>
+                        <li class="icon mx-3"><span class="fas fa-trash-alt"></span></li>
+                    </ul>
+                </div>
+                ${product.Tag && !empty(product.Tag) ? `<div class="tag bg-${product.Tag.Color}">${product.Tag.Text}</div>` : ''}
+                <div class="title pt-4 pb-1 fs-5">${product.Name}</div>
+                <div class="d-flex align-content-center justify-content-center"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> </div>
+                <div class="price fs-5">${product.Price} VND</div>
+            </div>
+        `;
+        productsContainer.insertAdjacentHTML('beforeend', productHTML);
+    });
+}
+
+</script>
+
 
 <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> -->
 
