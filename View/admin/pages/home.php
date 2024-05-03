@@ -10,30 +10,31 @@ require('View/admin/layouts/navbar.php');
 // print_r($usercount)
 // print_r($productcount);
 // print_r($cartcount);
-print_r($cartlist);
+// print_r($cartlist);
 // print_r($userlist);
 ?>
 
 </head>
 <body>
     <div class="m-2">
-        <h2>Wellcome, You</h2>
+        <h2 class = "text-uppercase fw-800 ms-4">Wellcome, <?php echo $admininfo['Name'] ?></h2>
         <div class="flex d-flex justify-content-between m-2">
+        
             <div class="card m-3 bg-warning bg-gradient" style="width: 20rem;">
             <div class="card-body justify-content-center">
-                <h5 class="card-title m-2">Special title treatment</h5>
+                <h5 class="card-title m-2"><?php echo $usercount['NumberOfUser'] ?>  Users </h5>
                 <p class="card-text m-2">Number of customer have account on your restaurant</p>
             </div>
             </div>
             <div class="card  m-3  bg-success bg-gradient" style="width: 20rem;">
             <div class="card-body justify-content-center ">
-                <h5 class="card-title m-2">Special title treatment</h5>
+                <h5 class="card-title m-2"> <?php echo  $productcount['NumberOfProduct']   ?> Products </h5>
                 <p class="card-text m-2">Number of product you are having</p>
             </div>
             </div>
             <div class="card m-3 bg-info bg-gradient" style="width: 20rem;">
             <div class="card-body justify-content-center ">
-                <h5 class="card-title m-2">Special title treatment</h5>
+                <h5 class="card-title m-2"><?php echo  $cartcount['NumberOfCart'] ?> Carts  </h5>
                 <p class="card-text m-2">Number of cart been and being used</p>
             </div>
             </div>
@@ -55,23 +56,23 @@ print_r($cartlist);
                         <tr>
                             <th> Owner </th>
                             <th> Cart ID </th>
-                            <th> Number of Item </th>
                             <th> Date </th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td> Owner </td>
-                            <td> Cart ID </td>
-                            <td> Number of Item </td>
-                            <td> Date </td>
-                        </tr>
-                        <tr>
-                            <td> Owner </td>
-                            <td> Cart ID </td>
-                            <td> Number of Item </td>
-                            <td> Date </td>
-                        </tr>
+                        <?php
+                            foreach ($cartlist as $key => $value) {
+                                echo "<tr>";
+                                echo "<td>".$value['Username']."</td>";
+                                echo "<td>".$value['CartID']."</td>";
+                                if ($value['ExportDate']){
+                                    echo "<td>".$value['ExportDate']."</td>";
+                                } else {
+                                    echo "<td>"."In Order"."</td>";
+                                }
+                                echo "</tr>";
+                            }
+                        ?>
                         </tbody>
                     </table>
                 </div>
@@ -98,16 +99,19 @@ print_r($cartlist);
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td> Owner </td>
-                            <td> Cart ID </td>
-                            <td> Number of Item </td>
-                        </tr>
-                        <tr>
-                            <td> Owner </td>
-                            <td> Cart ID </td>
-                            <td> Number of Item </td>
-                        </tr>
+                        <?php
+                            foreach ($userlist as $key => $value) {
+                                echo "<tr>";
+                                echo "<td>".$value['Username']."</td>";
+                                echo "<td>".$value['UserID']."</td>";
+                                if ($value['AccessLevel'] == 1){
+                                     echo "<td>"."Unrestricted"."</td>";
+                                } else {
+                                     echo "<td>"."Blocked"."</td>";
+                                }
+                                echo "</tr>";
+                            }
+                        ?>
                         </tbody>
                     </table>
                 </div>              

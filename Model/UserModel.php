@@ -21,7 +21,11 @@ class UserModel extends BaseModel{
         $sql = "SELECT * FROM " . self::TABLE . " WHERE username = '$username' AND password = '$password'";
         $result = $this -> _query($sql);
         $row = $result->fetch_assoc();
+        
+
         if ((bool)$row){
+            if ($row['AccessLevel'] == 0)
+                return 2;
             $_SESSION['ID'] = $row['UserID'];
             $_SESSION['Name'] = $row['Name'];
             $_SESSION['Role'] = 'member';

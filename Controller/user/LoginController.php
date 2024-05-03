@@ -29,22 +29,28 @@ class LoginController extends BaseController{
             $result = $this -> userModel -> login($_POST['username'], $_POST['password']);
             if ($result)
             {
+                if ($result === 2) 
+                {   
+                    return $this -> view('user.pages.login',
+                    [
+                        'error' => "Your account has been banned",
+                        'success' => []
+                    ]);
+                }
                 return $this -> view('user.pages.home');
             }
 
             $result = $this -> adminModel -> login($_POST['username'], $_POST['password']);
             if ($result)
             {
-                return $this -> view('admin.pages.home');
+                header('Location:?controller=home');
             }
-
 
             return $this -> view('user.pages.login',
             [
-                'error' => 'Tài khoản hoặc mật khẩu không đúng',
+                'error' => 'Incorrect password or username',
                 'success' => []
             ]);
-            
         } 
 
         return $this -> view('user.pages.login',
@@ -85,7 +91,7 @@ class LoginController extends BaseController{
         } else {
             return $this -> view('user.pages.login',
             [
-                'error' => 'Vui lòng nhập đầy đủ thông tin',
+                'error' => 'Insert all information',
                 'success' => []
             ]);
         }

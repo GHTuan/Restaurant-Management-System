@@ -21,7 +21,7 @@ class CartModel extends BaseModel{
     }
 
     public function getRecentCart(){
-        $sql = "SELECT * FROM " . self::TABLE . " ORDER BY CartID DESC LIMIT 5";
+        $sql = "SELECT Username, CartID, ExportDate FROM " . self::TABLE . " c JOIN member m ON c.UserID = m.UserID ORDER BY CartID DESC LIMIT 5";
         $result = $this -> _query($sql);
         $data = [];
         while ($row = mysqli_fetch_assoc($result)){
