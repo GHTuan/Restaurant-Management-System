@@ -40,4 +40,26 @@ class ProductModel extends BaseModel
         }
         return $data;
     }
+
+    public function deleteProduct($productId){
+        $sql = "DELETE FROM product WHERE ProductID = $productId";
+        $result = $this->_query($sql);
+        return $result;
+        // header("Location: admin.product.php");
+        // exit();
+    }
+
+    public function updateProduct($productId, $productName, $productType, $productPrice, $productDescription, $productImageURL){
+        $sql = "UPDATE product SET Name = '$productName', Type = '$productType', Price = '$productPrice', Description = '$productDescription', Picture = '$productImageURL' WHERE ProductID = $productId";
+        //die($sql);
+        $result = $this->_query($sql);
+        return $result;
+    }
+
+    public function addProduct($productName, $productType, $productPrice, $productDescription, $productImageURL){
+        $sql = "INSERT INTO product (Name, Price, Description, Type, Picture) VALUES ('$productName', '$productPrice', '$productDescription', '$productType', '$productImageURL')";
+        //die($sql);
+        $result = $this->_query($sql);
+        return $result;
+    }
 }

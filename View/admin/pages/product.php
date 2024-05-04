@@ -149,6 +149,32 @@ body {
     color: #fff
 }
 
+#editFormContainer {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+    z-index: 1000; /* Đảm bảo form hiển thị trên cùng của tất cả các phần tử khác */
+}
+
+#addFormContainer {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+    z-index: 1000; /* Đảm bảo form hiển thị trên cùng của tất cả các phần tử khác */
+}
+
 /* @media (max-width: 767.5px) {
 
     .navbar-nav .nav-link.active,
@@ -174,7 +200,7 @@ body {
 <div class="container bg-white">
 <nav class="navbar navbar-expand-md navbar-light bg-white justify-content-center">
     <div class="container-fluid"> 
-        <button id="new-product-btn" class="navbar-brand text-uppercase fw-800" type="button"><a href="productAdd.php" class="btn">Add New Product</a></button>
+        <button id="new-product-btn" class="navbar-brand text-uppercase fw-800" type="button" class="btn" onclick="populateAddForm()"> Add New Product</button>
             <button id="nav-toggler" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#myNav" aria-controls="myNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="fas fa-bars"></span>
             </button>
@@ -189,8 +215,10 @@ body {
             </div>
         </div>
         <form class="d-flex ms-3">
-            <input class="form-control me-2" type="search" placeholder="Nhập ..." aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Tìm kiếm</button>
+            <div class="col">
+                <input class="form-control border border-2" type="search" placeholder="Nhập ..." aria-label="Search">
+            </div>
+            <!-- <button class="btn btn-outline-success" type="submit">Tìm kiếm</button> -->
         </form>
     </div>
 </nav>
@@ -200,11 +228,18 @@ body {
             <div class="product">
                 <img src="<?php echo $product['Picture']; ?>" alt="<?php echo $product['Name']; ?>">
                 <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
-                <li class="icon"><span class="fas fa-edit"></span></li>
                 <li class="icon mx-3">
-                    <button class="delete-btn" data-product-id="<?php echo $product['ProductID']; ?>">
-                        <span class="fas fa-trash-alt"></span>
+                    <button class="edit-btn" onclick="populateEditForm(<?php echo ($product['ProductID']); ?>, '<?php echo ($product['Name']); ?>', '<?php echo ($product['Type']); ?>', '<?php echo ($product['Price']); ?>', '<?php echo ($product['Description']); ?>', '<?php echo ($product['Picture']); ?>')">
+                        <span class="fas fa-edit"></span>
                     </button>
+                </li>
+                <li class="icon mx-3">
+                    <form action="index.php?controller=Product&action=deleteProduct" method="POST">
+                        <input type="hidden" name="productId" value="<?php echo $product['ProductID']; ?>">
+                        <button type="submit" class="delete-btn" onclick="return confirm('Are you sure you want to delete this product?');">
+                            <span class="fas fa-trash-alt"></span>
+                        </button>
+                    </form>
                 </li>
                 </ul>
             </div>
@@ -216,6 +251,64 @@ body {
             <div class="price fs-5"><?php echo $product['Price']; ?> VND</div>
         </div>
     <?php } ?>
+</div>
+
+<div id="editFormContainer" class="container" style="display: none;">
+    <form action="index.php?controller=product&action=updateProduct" method="POST">
+            <div class="form-group">
+                <label for="editProductId">Product ID:</label>
+                <input type="text" class="form-control" id="editProductId" name="productId" readonly required>
+            </div>
+            <div class="form-group">
+                <label for="editProductName">Product Name:</label>
+                <input type="text" class="form-control" id="editProductName" name="productName" required>
+            </div>
+            <div class="form-group">
+                <label for="editProductName">Product Type:</label>
+                <input type="text" class="form-control" id="editProductType" name="productType"  required>
+            </div>
+            <div class="form-group">
+                <label for="editProductPrice">Product Price:</label>
+                <input type="number" class="form-control" id="editProductPrice" name="productPrice" required>
+            </div>
+            <div class="form-group">
+                <label for="editProductDescription">Product Description:</label>
+                <input type="text" class="form-control" id="editProductDescription" name="productDescription"  required>
+            </div>
+            <div class="form-group">
+                <label for="editProductImageURL">Product Image URL:</label>
+                <input type="text" class="form-control" id="editProductImageURL" name="productImageURL" required>
+            </div>
+        <button type="submit" class="btn btn-primary mt-2">Save Changes</button>
+        <button type="button" class="btn btn-danger ml-2 mt-2" onclick="cancelEdit()">Cancel</button>
+    </form>
+</div>
+
+<div id="addFormContainer" class="container" style="display: none;">
+    <form action="index.php?controller=product&action=addProduct" method="POST">
+                <div class="form-group">
+                    <label for="addProductName">Product Name:</label>
+                    <input type="text" class="form-control" id="addProductName" name="productName" required>
+                </div>
+                <div class="form-group">
+                    <label for="addProductName">Product Type:</label>
+                    <input type="text" class="form-control" id="addProductType" name="productType" required>
+                </div>
+                <div class="form-group">
+                    <label for="addProductPrice">Product Price:</label>
+                    <input type="number" class="form-control" id="addProductPrice" name="productPrice" required>
+                </div>
+                <div class="form-group">
+                    <label for="addProductDescription">Product Description:</label>
+                    <input type="text" class="form-control" id="addProductDescription" name="productDescription" required>
+                </div>
+                <div class="form-group">
+                    <label for="addProductImageURL">Product Image URL:</label>
+                    <input type="text" class="form-control" id="addProductImageURL" name="productImageURL" required>
+                </div>
+            <button type="submit" class="btn btn-primary mt-2">Save Changes</button>
+            <button type="button" class="btn btn-danger ml-2 mt-2" onclick="cancelAdd()">Cancel</button>
+    </form>
 </div>
 
     <nav aria-label="Page navigation">
@@ -263,8 +356,19 @@ body {
                         <div class="product">
                             <img src="${product.Picture}" alt="${product.Name}">
                             <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
-                                <li class="icon"><span class="fas fa-edit"></span></li>
-                                <li class="icon mx-3"><span class="fas fa-trash-alt"></span></li>
+                            <li class="icon mx-3">
+                                <button class="edit-btn" onclick="populateEditForm(${product.ProductID}, '${product.Name}', '${product.Type}', '${product.Price}', '${product.Description}', '${product.Picture}')">
+                                    <span class="fas fa-edit"></span>
+                                </button>
+                            </li>
+                            <li class="icon mx-3">
+                                <form action="index.php?controller=Product&action=deleteProduct" method="POST">
+                                    <input type="hidden" name="productId" value="${product.ProductID}">
+                                    <button type="submit" class="delete-btn" onclick="return confirm('Are you sure you want to delete this product?');">
+                                        <span class="fas fa-trash-alt"></span>
+                                    </button>
+                                </form>
+                            </li>
                             </ul>
                         </div>
                         ${product.Tag && !empty(product.Tag) ? `<div class="tag bg-${product.Tag.Color}">${product.Tag.Text}</div>` : ''}
@@ -293,20 +397,33 @@ body {
     });
 
 
-    // Function to render filtered products
+    // Function to render filtered products of search feature
     function renderProducts(products) {
         const productsContainer = document.querySelector('.row');
         productsContainer.innerHTML = ''; // Clear existing products
 
-        products.forEach(product => {
+        products.forEach(product =>
+         {
+            console.log(product);
             const productHTML = `
                 <div class="col-lg-3 col-sm-6 d-flex flex-column align-items-center justify-content-center product-item my-3">
                     <div class="product">
                         <img src="${product.Picture}" alt="${product.Name}">
                         <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
-                            <li class="icon"><span class="fas fa-edit"></span></li>
-                            <li class="icon mx-3"><span class="fas fa-trash-alt"></span></li>
-                        </ul>
+                            <li class="icon mx-3">
+                                <button class="edit-btn" onclick="populateEditForm(${product.ProductID}, '${product.Name}', '${product.Type}', '${product.Price}', '${product.Description}', '${product.Picture}')">
+                                    <span class="fas fa-edit"></span>
+                                </button>
+                            </li>
+                            <li class="icon mx-3">
+                                <form action="index.php?controller=Product&action=deleteProduct" method="POST">
+                                    <input type="hidden" name="productId" value="${product.ProductID}">
+                                    <button type="submit" class="delete-btn" onclick="return confirm('Are you sure you want to delete this product?');">
+                                        <span class="fas fa-trash-alt"></span>
+                                    </button>
+                                </form>
+                            </li>
+                            </ul>
                     </div>
                     ${product.Tag && !empty(product.Tag) ? `<div class="tag bg-${product.Tag.Color}">${product.Tag.Text}</div>` : ''}
                     <div class="title pt-4 pb-1 fs-5">${product.Name}</div>
@@ -318,33 +435,51 @@ body {
         });
     }
 
-    //delete product
-        document.querySelectorAll('.delete-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const productId = this.getAttribute('data-product-id');
-            if (confirm("Are you sure you want to delete this product?")) {
-                // Send AJAX request to delete.php with productId
-                fetch('productDelete.php', {
-                    method: 'POST',
-                    body: JSON.stringify({ productId }),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // Refresh the page or update product list
-                        // For example, you can reload the page
-                        location.reload();
-                    } else {
-                        alert('Failed to delete product.');
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-            }
-        });
-    });
+    //show edit form
+    function populateEditForm(productId, productName, productType, productPrice, productDescription, productImageURL) {
+        // You can populate the form fields with product information here
+        // For now, I'm just setting the product ID in the hidden input field
+
+        // Set the product ID in the hidden input field
+        document.getElementById('editProductId').value = productId;
+        document.getElementById('editProductName').value = productName;
+        document.getElementById('editProductType').value = productType;
+        document.getElementById('editProductPrice').value = productPrice;
+        document.getElementById('editProductDescription').value = productDescription;
+        document.getElementById('editProductImageURL').value = productImageURL;
+        // document.getElementById('editProductName').value = Name;
+
+        // Show the edit form
+        document.getElementById('editFormContainer').style.display = 'block';
+    }
+
+    // Function to cancel editing
+    function cancelEdit() {
+        // Hide the edit form
+        document.getElementById('editFormContainer').style.display = 'none';
+    }
+
+    function populateAddForm() {
+        // You can populate the form fields with product information here
+        // For now, I'm just setting the product ID in the hidden input field
+
+        // Set the product ID in the hidden input field
+        //document.getElementById('editProductId').value = productId;
+        // document.getElementById('editProductName').value = productName;
+        // document.getElementById('editProductPrice').value = productPrice;
+        // document.getElementById('editProductDescription').value = productDescription;
+        // document.getElementById('editProductImageURL').value = productImageURL;
+        // document.getElementById('editProductName').value = Name;
+
+        // Show the edit form
+        document.getElementById('addFormContainer').style.display = 'block';
+    }
+
+    // Function to cancel editing
+    function cancelAdd() {
+        // Hide the edit form
+        document.getElementById('addFormContainer').style.display = 'none';
+    }
 
 
 
