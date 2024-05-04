@@ -6,7 +6,7 @@
     <script src="https://cdn.jsdelivr.net/npm/unorm@1.6.0/lib/unorm.min.js"></script>
 
 <?php
-require('View/admin/layouts/navbar.php');
+require('View/user/layouts/navbar2.php');
 print_r($data)
 ?>
 <style>
