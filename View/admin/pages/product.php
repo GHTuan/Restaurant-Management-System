@@ -174,10 +174,10 @@ body {
 <div class="container bg-white">
 <nav class="navbar navbar-expand-md navbar-light bg-white justify-content-center">
     <div class="container-fluid"> 
-        <a class="navbar-brand text-uppercase fw-800" href="#"><span class="border-red pe-2">New Product</span></a> 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#myNav" aria-controls="myNav" aria-expanded="false" aria-label="Toggle navigation"> 
-            <span class="fas fa-bars"></span> 
-        </button>
+        <button id="new-product-btn" class="navbar-brand text-uppercase fw-800" type="button"><a href="productAdd.php" class="btn">Add New Product</a></button>
+            <button id="nav-toggler" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#myNav" aria-controls="myNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="fas fa-bars"></span>
+            </button>
         <div class="collapse navbar-collapse justify-content-center" id="myNav">
             <div class="navbar-nav"> 
             <a id="Tất cả" class="nav-link active fs-5" aria-current="page" href="#">Tất cả</a> 
@@ -201,7 +201,11 @@ body {
                 <img src="<?php echo $product['Picture']; ?>" alt="<?php echo $product['Name']; ?>">
                 <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
                 <li class="icon"><span class="fas fa-edit"></span></li>
-                <li class="icon mx-3"><span class="fas fa-trash-alt"></span></li>
+                <li class="icon mx-3">
+                    <button class="delete-btn" data-product-id="<?php echo $product['ProductID']; ?>">
+                        <span class="fas fa-trash-alt"></span>
+                    </button>
+                </li>
                 </ul>
             </div>
             <?php if(isset($product['Tag']) && !empty($product['Tag'])) { ?>
@@ -232,6 +236,7 @@ body {
 
 </div>
 <script>
+    // filter feature
     document.querySelectorAll('.nav-link').forEach(item => {
         item.addEventListener('click', function() {
         const type = this.id;
@@ -273,45 +278,76 @@ body {
         });
     });
 
-            // Filter feature
-            const searchInput = document.querySelector('input[type="search"]');
-searchInput.addEventListener("input", (e) => {
-    const value = e.target.value.trim(); // Trim whitespace
-    const normalizedValue = unorm.nfd(value.toLowerCase()); // Normalize and convert search value to lowercase
-    const filteredData = <?php echo json_encode($data); ?>.filter((product) => {
-        // Normalize and convert product name to lowercase
-        const normalizedProductName = unorm.nfd(product.Name.toLowerCase());
-        // Check if the normalized product name contains the normalized search value
-        return normalizedProductName.includes(normalizedValue);
+    // Search feature
+        const searchInput = document.querySelector('input[type="search"]');
+        searchInput.addEventListener("input", (e) => {
+        const value = e.target.value.trim(); // Trim whitespace
+        const normalizedValue = unorm.nfd(value.toLowerCase()); // Normalize and convert search value to lowercase
+        const filteredData = <?php echo json_encode($data); ?>.filter((product) => {
+            // Normalize and convert product name to lowercase
+            const normalizedProductName = unorm.nfd(product.Name.toLowerCase());
+            // Check if the normalized product name contains the normalized search value
+            return normalizedProductName.includes(normalizedValue);
+        });
+        renderProducts(filteredData);
     });
-    renderProducts(filteredData);
-});
 
 
-// Function to render filtered products
-function renderProducts(products) {
-    const productsContainer = document.querySelector('.row');
-    productsContainer.innerHTML = ''; // Clear existing products
+    // Function to render filtered products
+    function renderProducts(products) {
+        const productsContainer = document.querySelector('.row');
+        productsContainer.innerHTML = ''; // Clear existing products
 
-    products.forEach(product => {
-        const productHTML = `
-            <div class="col-lg-3 col-sm-6 d-flex flex-column align-items-center justify-content-center product-item my-3">
-                <div class="product">
-                    <img src="${product.Picture}" alt="${product.Name}">
-                    <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
-                        <li class="icon"><span class="fas fa-edit"></span></li>
-                        <li class="icon mx-3"><span class="fas fa-trash-alt"></span></li>
-                    </ul>
+        products.forEach(product => {
+            const productHTML = `
+                <div class="col-lg-3 col-sm-6 d-flex flex-column align-items-center justify-content-center product-item my-3">
+                    <div class="product">
+                        <img src="${product.Picture}" alt="${product.Name}">
+                        <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
+                            <li class="icon"><span class="fas fa-edit"></span></li>
+                            <li class="icon mx-3"><span class="fas fa-trash-alt"></span></li>
+                        </ul>
+                    </div>
+                    ${product.Tag && !empty(product.Tag) ? `<div class="tag bg-${product.Tag.Color}">${product.Tag.Text}</div>` : ''}
+                    <div class="title pt-4 pb-1 fs-5">${product.Name}</div>
+                    <div class="d-flex align-content-center justify-content-center"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> </div>
+                    <div class="price fs-5">${product.Price} VND</div>
                 </div>
-                ${product.Tag && !empty(product.Tag) ? `<div class="tag bg-${product.Tag.Color}">${product.Tag.Text}</div>` : ''}
-                <div class="title pt-4 pb-1 fs-5">${product.Name}</div>
-                <div class="d-flex align-content-center justify-content-center"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> </div>
-                <div class="price fs-5">${product.Price} VND</div>
-            </div>
-        `;
-        productsContainer.insertAdjacentHTML('beforeend', productHTML);
+            `;
+            productsContainer.insertAdjacentHTML('beforeend', productHTML);
+        });
+    }
+
+    //delete product
+        document.querySelectorAll('.delete-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = this.getAttribute('data-product-id');
+            if (confirm("Are you sure you want to delete this product?")) {
+                // Send AJAX request to delete.php with productId
+                fetch('productDelete.php', {
+                    method: 'POST',
+                    body: JSON.stringify({ productId }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Refresh the page or update product list
+                        // For example, you can reload the page
+                        location.reload();
+                    } else {
+                        alert('Failed to delete product.');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        });
     });
-}
+
+
+
 
 </script>
 
