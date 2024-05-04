@@ -30,4 +30,25 @@ class CartModel extends BaseModel{
         return $data;
     }
 
+    public function addToCart($ProductID,$CartId,$amount){
+        $sql = "INSERT INTO cartitem (ProductID,CartID,Amount) VALUES ({$ProductID} , $CartId, {$amount})";
+        $this -> _query($sql);
+    }
+
+    public function getInUseCart(){
+        $sql = "SELECT CartID FROM ". self::TABLE. " WHERE ExportDate IS NULL AND UserID = {$_SESSION['ID']} ";
+        $result = $this -> _query($sql);
+        $row = $result->fetch_assoc();
+        if ((bool)$row){
+            return $row['CartID'];
+        } else {
+            $data = ['UserID' => $_SESSION['ID']];
+            $this -> create(self::TABLE, $data);
+
+            $sql = "SELECT CartID FROM ". self::TABLE. " WHERE ExportDate IS NULL AND UserID = {$_SESSION['ID']} ";
+            $result = $this -> _query($sql);
+            $row = $result -> fetch_assoc();
+            return $row['CartID'];
+        }  
+    }
 }
