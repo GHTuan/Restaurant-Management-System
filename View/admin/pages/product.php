@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/unorm@1.6.0/lib/unorm.min.js"></script>
 
 <?php
 require('View/admin/layouts/navbar.php');
-// print_r($data)
+//print_r($data)
 ?>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
@@ -173,17 +174,17 @@ body {
 <div class="container bg-white">
 <nav class="navbar navbar-expand-md navbar-light bg-white justify-content-center">
     <div class="container-fluid"> 
-        <a class="navbar-brand text-uppercase fw-800" href="#"><span class="border-red pe-2">New Product</span></a> 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#myNav" aria-controls="myNav" aria-expanded="false" aria-label="Toggle navigation"> 
-            <span class="fas fa-bars"></span> 
-        </button>
+        <button id="new-product-btn" class="navbar-brand text-uppercase fw-800" type="button"><a href="productAdd.php" class="btn">Add New Product</a></button>
+            <button id="nav-toggler" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#myNav" aria-controls="myNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="fas fa-bars"></span>
+            </button>
         <div class="collapse navbar-collapse justify-content-center" id="myNav">
             <div class="navbar-nav"> 
-                <a class="nav-link active fs-5" aria-current="page" href="#">Tất cả</a> 
-                <a class="nav-link fs-5" href="#">Cơm</a> 
-                <a class="nav-link fs-5" href="#">Bún</a> 
-                <a class="nav-link fs-5" href="#">Lẩu</a> 
-                <a class="nav-link fs-5" href="#">Nước uống</a> 
+            <a id="Tất cả" class="nav-link active fs-5" aria-current="page" href="#">Tất cả</a> 
+            <a id="Cơm" class="nav-link fs-5" href="#">Cơm</a> 
+            <a id="Bún" class="nav-link fs-5" href="#">Bún</a> 
+            <a id="Lẩu" class="nav-link fs-5" href="#">Lẩu</a> 
+            <a id="Nước" class="nav-link fs-5" href="#">Nước uống</a>
                 <!-- Add the search form -->
             </div>
         </div>
@@ -193,120 +194,29 @@ body {
         </form>
     </div>
 </nav>
-    <div class="row">
+<div class="row">
+    <?php foreach ($data as $product) { ?>
         <div class="col-lg-3 col-sm-6 d-flex flex-column align-items-center justify-content-center product-item my-3">
-            <div class="product"> <img src="https://cdn.tgdd.vn/2022/01/CookDish/cach-lam-com-ga-chien-xoi-mo-ngon-da-vang-gion-rum-dom-gian-avt-1200x676.jpg" alt="Cơm gà xối mỡ">
+            <div class="product">
+                <img src="<?php echo $product['Picture']; ?>" alt="<?php echo $product['Name']; ?>">
                 <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
-                    <li class="icon"><span class="fas fa-expand-arrows-alt"></span></li>
-                    <li class="icon mx-3"><span class="far fa-heart"></span></li>
-                    <li class="icon"><span class="fas fa-shopping-bag"></span></li>
+                <li class="icon"><span class="fas fa-edit"></span></li>
+                <li class="icon mx-3">
+                    <button class="delete-btn" data-product-id="<?php echo $product['ProductID']; ?>">
+                        <span class="fas fa-trash-alt"></span>
+                    </button>
+                </li>
                 </ul>
             </div>
-            <div class="tag bg-red">sale</div>
-            <div class="title pt-4 pb-1 fs-5">Cơm Gà Xối Mỡ</div>
+            <?php if(isset($product['Tag']) && !empty($product['Tag'])) { ?>
+                <div class="tag bg-<?php echo $product['Tag']['Color']; ?>"><?php echo $product['Tag']['Text']; ?></div>
+            <?php } ?>
+            <div class="title pt-4 pb-1 fs-5"><?php echo $product['Name']; ?></div>
             <div class="d-flex align-content-center justify-content-center"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> </div>
-            <div class="price fs-5">25.000 VND</div>
-            <button class="btn btn-primary mt-3">Mua ngay</button>
+            <div class="price fs-5"><?php echo $product['Price']; ?> VND</div>
         </div>
-        <div class="col-lg-3 col-sm-6 d-flex flex-column align-items-center justify-content-center product-item my-3">
-            <div class="product"> <img src="https://file.hstatic.net/200000459373/article/9e460b450dc12519d2f0ef143819831f_8f3645a6459041489c05eb2ddf08b530.jpg" alt="Cơm Chiên Dương Châu">
-                <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
-                    <li class="icon"><span class="fas fa-expand-arrows-alt"></span></li>
-                    <li class="icon mx-3"><span class="far fa-heart"></span></li>
-                    <li class="icon"><span class="fas fa-shopping-bag"></span></li>
-                </ul>
-            </div>
-            <div class="tag bg-red">Sale</div>
-            <div class="title pt-4 pb-1 fs-5">Cơm Chiên Dương Châu</div>
-            <div class="d-flex align-content-center justify-content-center"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> </div>
-            <div class="price fs-5">25.000 VND</div>
-            <button class="btn btn-primary mt-3">Mua ngay</button>
-        </div>
-        <div class="col-lg-3 col-sm-6 d-flex flex-column align-items-center justify-content-center product-item my-3">
-            <div class="product"> <img src="https://cdn.tgdd.vn/Files/2017/03/24/964440/cach-lam-bun-thit-nuong-ngon-7_760x450.jpg" alt="Bún thịt nướng">
-                <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
-                    <li class="icon"><span class="fas fa-expand-arrows-alt"></span></li>
-                    <li class="icon mx-3"><span class="far fa-heart"></span></li>
-                    <li class="icon"><span class="fas fa-shopping-bag"></span></li>
-                </ul>
-            </div>
-            <div class="tag bg-green">new</div>
-            <div class="title pt-4 pb-1 fs-5"> Bún Thịt Nướng</div>
-            <div class="d-flex align-content-center justify-content-center"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> </div>
-            <div class="price fs-5">20.000 VND</div>
-            <button class="btn btn-primary mt-3">Mua ngay</button>
-        </div>
-        <div class="col-lg-3 col-sm-6 d-flex flex-column align-items-center justify-content-center product-item my-3">
-            <div class="product"> <img src="https://statics.vinwonders.com/bun-cha-ha-noi-3_1688011791.jpg" alt="Bún chả hà nội">
-                <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
-                    <li class="icon"><span class="fas fa-expand-arrows-alt"></span></li>
-                    <li class="icon mx-3"><span class="far fa-heart"></span></li>
-                    <li class="icon"><span class="fas fa-shopping-bag"></span></li>
-                </ul>
-            </div>
-            <div class="title pt-4 pb-1 fs-5">Bún Chả Hà Nội</div>
-            <div class="d-flex align-content-center justify-content-center"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> </div>
-            <div class="price fs-5"> 30.000 VND</div>
-            <button class="btn btn-primary mt-3">Mua ngay</button>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-3 col-sm-6 d-flex flex-column align-items-center justify-content-center product-item my-3">
-            <div class="product"> <img src="https://hoasenfoods.vn/wp-content/uploads/2024/01/bun-bo-hue.jpg" alt="Bún bò huế">
-                <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
-                    <li class="icon"><span class="fas fa-expand-arrows-alt"></span></li>
-                    <li class="icon mx-3"><span class="far fa-heart"></span></li>
-                    <li class="icon"><span class="fas fa-shopping-bag"></span></li>
-                </ul>
-            </div>
-            <div class="tag bg-red">sale</div>
-            <div class="title pt-4 pb-1 fs-5">Bún Bò Huế</div>
-            <div class="d-flex align-content-center justify-content-center"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> </div>
-            <div class="price fs-5">30.000 VND</div>
-            <button class="btn btn-primary mt-3">Mua ngay</button>
-        </div>
-        <div class="col-lg-3 col-sm-6 d-flex flex-column align-items-center justify-content-center product-item my-3">
-            <div class="product"> <img src="https://tiki.vn/blog/wp-content/uploads/2023/07/thumb.jpeg" alt="Bún riêu cua">
-                <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
-                    <li class="icon"><span class="fas fa-expand-arrows-alt"></span></li>
-                    <li class="icon mx-3"><span class="far fa-heart"></span></li>
-                    <li class="icon"><span class="fas fa-shopping-bag"></span></li>
-                </ul>
-            </div>
-            <div class="tag bg-black">out of stock</div>
-            <div class="title pt-4 pb-1 fs-5">Bún Riêu Cua</div>
-            <div class="d-flex align-content-center justify-content-center"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> </div>
-            <div class="price fs-5">30.000 VND</div>
-            <button class="btn btn-primary mt-3">Mua Ngay</button>
-        </div>
-        <div class="col-lg-3 col-sm-6 d-flex flex-column align-items-center justify-content-center product-item my-3">
-            <div class="product"> <img src="https://cdn.tgdd.vn/Files/2019/07/15/1179640/that-chat-tinh-anh-em-voi-mon-lau-hai-san-bang-goi-lau-sg-food-202202231324352858.jpg" alt="Lẩu hải sản">
-                <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
-                    <li class="icon"><span class="fas fa-expand-arrows-alt"></span></li>
-                    <li class="icon mx-3"><span class="far fa-heart"></span></li>
-                    <li class="icon"><span class="fas fa-shopping-bag"></span></li>
-                </ul>
-            </div>
-            <div class="title pt-4 pb-1 fs-5"> Lẩu Hải Sản</div>
-            <div class="d-flex align-content-center justify-content-center"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> </div>
-            <div class="price fs-5">50.000 VND</div>
-            <button class="btn btn-primary mt-3">Mua ngay</button>
-        </div>
-        <div class="col-lg-3 col-sm-6 d-flex flex-column align-items-center justify-content-center product-item my-3">
-            <div class="product"> <img src="https://cdn.sgtiepthi.vn/wp-content/uploads/2020/12/T7_laumuc_thuanphucvungtau.jpg" alt="Lẩu mực">
-                <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
-                    <li class="icon"><span class="fas fa-expand-arrows-alt"></span></li>
-                    <li class="icon mx-3"><span class="far fa-heart"></span></li>
-                    <li class="icon"><span class="fas fa-shopping-bag"></span></li>
-                </ul>
-            </div>
-            <div class="tag bg-green">new</div>
-            <div class="title pt-4 pb-1 fs-5">Lẩu mực</div>
-            <div class="d-flex align-content-center justify-content-center"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> </div>
-            <div class="price fs-5">50.000 VND</div>
-            <button class="btn btn-primary mt-3">Mua ngay</button>
-        </div>
-    </div>
+    <?php } ?>
+</div>
 
     <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center mt-4">
@@ -325,6 +235,122 @@ body {
     </nav>
 
 </div>
+<script>
+    // filter feature
+    document.querySelectorAll('.nav-link').forEach(item => {
+        item.addEventListener('click', function() {
+        const type = this.id;
+        console.log('Sorting by: ' + type);
+
+        let filteredProducts;
+        if (type === 'Tất cả') {
+            // If 'Tất cả' is selected, display all the products
+            filteredProducts = <?php echo json_encode($data); ?>;
+        } else {
+            // Filter the products based on the selected type
+            filteredProducts = <?php echo json_encode($data); ?>.filter(product => {
+                return product.Type === type;
+            });
+        }
+
+        // Clear the current product display
+        document.querySelector('.row').innerHTML = '';
+
+            // Render the filtered products
+            filteredProducts.forEach(product => {
+                const productHTML = `
+                    <div class="col-lg-3 col-sm-6 d-flex flex-column align-items-center justify-content-center product-item my-3">
+                        <div class="product">
+                            <img src="${product.Picture}" alt="${product.Name}">
+                            <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
+                                <li class="icon"><span class="fas fa-edit"></span></li>
+                                <li class="icon mx-3"><span class="fas fa-trash-alt"></span></li>
+                            </ul>
+                        </div>
+                        ${product.Tag && !empty(product.Tag) ? `<div class="tag bg-${product.Tag.Color}">${product.Tag.Text}</div>` : ''}
+                        <div class="title pt-4 pb-1 fs-5">${product.Name}</div>
+                        <div class="d-flex align-content-center justify-content-center"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> </div>
+                        <div class="price fs-5">${product.Price} VND</div>
+                    </div>
+                `;
+                document.querySelector('.row').insertAdjacentHTML('beforeend', productHTML);
+            });
+        });
+    });
+
+    // Search feature
+        const searchInput = document.querySelector('input[type="search"]');
+        searchInput.addEventListener("input", (e) => {
+        const value = e.target.value.trim(); // Trim whitespace
+        const normalizedValue = unorm.nfd(value.toLowerCase()); // Normalize and convert search value to lowercase
+        const filteredData = <?php echo json_encode($data); ?>.filter((product) => {
+            // Normalize and convert product name to lowercase
+            const normalizedProductName = unorm.nfd(product.Name.toLowerCase());
+            // Check if the normalized product name contains the normalized search value
+            return normalizedProductName.includes(normalizedValue);
+        });
+        renderProducts(filteredData);
+    });
+
+
+    // Function to render filtered products
+    function renderProducts(products) {
+        const productsContainer = document.querySelector('.row');
+        productsContainer.innerHTML = ''; // Clear existing products
+
+        products.forEach(product => {
+            const productHTML = `
+                <div class="col-lg-3 col-sm-6 d-flex flex-column align-items-center justify-content-center product-item my-3">
+                    <div class="product">
+                        <img src="${product.Picture}" alt="${product.Name}">
+                        <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
+                            <li class="icon"><span class="fas fa-edit"></span></li>
+                            <li class="icon mx-3"><span class="fas fa-trash-alt"></span></li>
+                        </ul>
+                    </div>
+                    ${product.Tag && !empty(product.Tag) ? `<div class="tag bg-${product.Tag.Color}">${product.Tag.Text}</div>` : ''}
+                    <div class="title pt-4 pb-1 fs-5">${product.Name}</div>
+                    <div class="d-flex align-content-center justify-content-center"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> </div>
+                    <div class="price fs-5">${product.Price} VND</div>
+                </div>
+            `;
+            productsContainer.insertAdjacentHTML('beforeend', productHTML);
+        });
+    }
+
+    //delete product
+        document.querySelectorAll('.delete-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = this.getAttribute('data-product-id');
+            if (confirm("Are you sure you want to delete this product?")) {
+                // Send AJAX request to delete.php with productId
+                fetch('productDelete.php', {
+                    method: 'POST',
+                    body: JSON.stringify({ productId }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Refresh the page or update product list
+                        // For example, you can reload the page
+                        location.reload();
+                    } else {
+                        alert('Failed to delete product.');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        });
+    });
+
+
+
+
+</script>
+
 
 <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> -->
 

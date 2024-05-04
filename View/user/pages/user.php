@@ -32,7 +32,7 @@
             <h1 class="text-center mb-4">My Information</h1>
         </div>
         <div class="product img d-flex justify-content-center align-items-center mb-4">
-            <img id="productImage" src="View/Images/siuuu.png" alt="Avatar" class="rounded-circle" style="width: 250px; height: 250px;">
+            <img id="productImage" src="<?php echo $data['Avatar']?>" alt="Avatar" class="rounded-circle" style="width: 250px; height: 250px;">
         </div>
         <form action= "index.php?controller=user&action=edit" method="POST">
           <div class="row">

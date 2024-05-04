@@ -16,6 +16,9 @@
             justify-content: space-between;
             margin-bottom: 20px;
         }
+        td button{
+            margin: 0 5px;
+        }
     </style>
 </head>
 <?php
@@ -25,7 +28,7 @@ require('View/user/layouts/navbar2.php');
 <body>
     <main class="container-fluid">
         <div class="row">
-            <div class="container col-lg-8">
+            <div class="container col-lg-8 mb-5">
                 <h1>Cart</h1>
                 <table class="table">
                     <thead class="thead-dark">
@@ -41,8 +44,8 @@ require('View/user/layouts/navbar2.php');
                     </tbody>
                 </table>
 
-                <button id="continue-shopping"><i class="fa-solid fa-arrow-left"></i> Continue Shopping</button>
-                <button id="clear-cart"><i class="fa-solid fa-trash"></i> Clear Cart</button>
+                <button id="continue-shopping" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i> Continue Shopping</button>
+                <button id="clear-cart" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Clear Cart</button>
             </div>
             <div class="container col-lg-4">
                 <h2>Order Summary</h2>
@@ -68,13 +71,17 @@ require('View/user/layouts/navbar2.php');
                 <h4>Total:</h4>
                 <span id="total-price">$0.00</span>
                 <br>
-                <button><i class="fa-solid fa-credit-card"></i> Proceed to Checkout</button>
+                <button class="btn btn-success" id="proceed" style="margin-top: 5px;"><i class="fa-solid fa-credit-card"></i> Proceed to Checkout</button>
             </div>
         </div>
+
+    </div>
     </main>
     <script>
         let userID = <?php echo $_SESSION['ID'] ?>;
         let cartID = null;
+        let checkoutPrice = 0;
+        let address = '';
         const changeQuantity = (productID, quantity, CartID) => {
             $.post('APISelection.php', {
                 api: 'cart',
@@ -139,6 +146,9 @@ require('View/user/layouts/navbar2.php');
                 btnDecrease.addEventListener('click', () => {
                     changeQuantity(item.Product.ProductID, Number(item.Amount) - 1, item.CartID);
                 });
+                // Add class to the button
+                btnDecrease.classList.add('btn');
+                btnDecrease.classList.add('btn-secondary');
                 tdQuantity.appendChild(btnDecrease);
                 let spanQuantity = document.createElement('span');
                 spanQuantity.innerText = item.Amount;
@@ -148,6 +158,8 @@ require('View/user/layouts/navbar2.php');
                 btnIncrease.addEventListener('click', () => {
                     changeQuantity(item.Product.ProductID, Number(item.Amount) + 1, item.CartID);
                 });
+                btnIncrease.classList.add('btn');
+                btnIncrease.classList.add('btn-secondary');
                 tdQuantity.appendChild(btnIncrease);
                 tr.appendChild(tdQuantity);
 
@@ -169,6 +181,7 @@ require('View/user/layouts/navbar2.php');
             }
             subtotalPrice.innerText = "$" + subtotal.toFixed(2);
             totalPrice.innerText = "$" + (subtotal + Number(document.querySelector('input[name="shipping"]:checked').value)).toFixed(2);
+            checkoutPrice = subtotal + Number(document.querySelector('input[name="shipping"]:checked').value);
         }
 
         $(document).ready(function() {
@@ -176,10 +189,12 @@ require('View/user/layouts/navbar2.php');
                 api: 'cart',
                 action: 'load'
             }).done((response) => {
+                console.log(response);
                 if (response.CartID) {
                     cartID = response.CartID;
                 }
                 if (response.cartItems) {
+                    address = response.address;
                     showCartItem(response.cartItems);
                     // Clear Cart button
                     $('#clear-cart').click(() => {
@@ -196,6 +211,8 @@ require('View/user/layouts/navbar2.php');
                     });
 
                 }
+            }).fail((response) => {
+                console.log("Fail: ", response);
             });
 
             // Continue Shopping button
@@ -203,6 +220,48 @@ require('View/user/layouts/navbar2.php');
                 window.location.href = 'index.php?controller=menu';
             });
         });
+
+        $("#proceed").click(() => {
+            if (checkoutPrice == 0) {
+                alert('Please add items to cart before proceeding to checkout');
+                return;
+            }
+            if (confirm('Proceed to checkout?') == false) {
+                return;
+            }
+            $.post('APISelection.php', {
+                api: 'cart',
+                action: 'checkout',
+                cartID: cartID
+            }).done((response) => {
+                console.log(response);
+                if (response.success) {
+                    successfulRendering();
+                } else {
+                    alert('Checkout failed');
+                }
+            }).fail((response) => {
+                console.log("Fail: ", response);
+                alert("There was an error processing your request. Please try again later.");
+            });
+        });
+
+        const successfulRendering = () => {
+            $("main").empty();
+            let div = document.createElement('div');
+            div.classList.add('container');
+            div.classList.add('col-lg-8');
+            let h1 = document.createElement('h1');
+            h1.innerText = 'Checkout Successful';
+            div.appendChild(h1);
+            let p = document.createElement('p');
+            p.innerText = 'Your order has been successfully placed. Your order will be delivered to the following address:';
+            div.appendChild(p);
+            let addressDiv = document.createElement('div');
+            addressDiv.innerText = address;
+            div.appendChild(addressDiv);
+            $("main").append(div);
+        }
     </script>
 </body>
 

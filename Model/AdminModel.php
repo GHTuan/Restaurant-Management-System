@@ -56,140 +56,91 @@ class AdminModel extends BaseModel
 
     public function getUserAccounts()
     {
-        $sql = "SELECT * FROM member";
-        $result = $this->_query($sql);
-        $data = [];
-        while ($row = $result->fetch_assoc()) {
-            $data[] = $row;
-        }
-        return $data;
+        return $this->all('member');
     }
 
     public function getAdminAccounts()
     {
-        $sql = "SELECT * FROM admin";
-        $result = $this->_query($sql);
-        $data = [];
-        while ($row = $result->fetch_assoc()) {
-            $data[] = $row;
-        }
-        return $data;
+        return $this->all('admin');
     }
 
     public function editAccount($type, $id, $data)
     {
-        $sql = "";
         if ($type == 'admin') {
             // Check if the account already exists
-            $sql = "SELECT * FROM admin WHERE Name = '{$data['Name']}'";
-            $result = $this->_query($sql);
-            $row = $result->fetch_assoc();
+            $row = $this->find('admin', 'Name', $data['Name']);
             if ((bool)$row && $row['AdminID'] != $id) {
                 return False;
             }
             // Check in the member table
-            $sql = "SELECT * FROM member WHERE Username = '{$data['Name']}'";
-            $result = $this->_query($sql);
-            $row = $result->fetch_assoc();
+            $row = $this->find('member', 'Username', $data['Name']);
             if ((bool)$row) {
                 return False;
             }
             // Update the account
-            $sql = "UPDATE admin SET ";
-            foreach ($data as $key => $value) {
-                $sql .= "{$key} = '{$value}',";
-            }
-            $sql = substr($sql, 0, -1);
-            $sql .= " WHERE AdminID = {$id}";
+            return $this->update('admin', 'AdminID', $id, $data);
         } else if ($type == 'user') {
             // Check if the account already exists
-            $sql = "SELECT * FROM member WHERE Username = '{$data['Username']}'";
-            $result = $this->_query($sql);
-            $row = $result->fetch_assoc();
+            $row = $this->find('member', 'Username', $data['Username']);
             if ((bool)$row && $row['UserID'] != $id) {
                 return False;
             }
             // Check in the admin table
-            $sql = "SELECT * FROM admin WHERE Name = '{$data['Username']}'";
-            $result = $this->_query($sql);
-            $row = $result->fetch_assoc();
+            $row = $this->find('admin', 'Name', $data['Username']);
             if ((bool)$row) {
                 return False;
             }
             // Update the account
-            $sql = "UPDATE member SET ";
-            foreach ($data as $key => $value) {
-                $sql .= "{$key} = '{$value}',";
-            }
-            $sql = substr($sql, 0, -1);
-            $sql .= " WHERE UserID = {$id}";
+            return $this->update('member', 'UserID', $id, $data);
         } else {
-            $sql = "";
+            return False;
         }
-        return $this->_query($sql);
     }
 
     public function deleteAccount($type, $id)
     {
-        $sql = "";
         if ($type == 'admin') {
-            $sql = "DELETE FROM admin WHERE AdminID = {$id}";
+            return $this->delete('admin', 'AdminID', $id);
         } else if ($type == 'user') {
-            $sql = "DELETE FROM member WHERE UserID = {$id}";
+            return $this->delete('member', 'UserID', $id);
         } else {
-            $sql = "";
+            return False;
         }
-        return $this->_query($sql);
     }
 
     public function addAccount($type, $data)
     {
         $sql = "";
         if ($type == 'admin') {
-            // Check if the account already exists
-            $sql = "SELECT * FROM admin WHERE Name = '{$data['Name']}'";
-            $result = $this->_query($sql);
-            $row = $result->fetch_assoc();
+            $row = $this->find('admin', 'Name', $data['Name']);
             if ((bool)$row) {
                 return False;
             }
-            // Check in the member table
-            $sql = "SELECT * FROM member WHERE Username = '{$data['Name']}'";
-            $result = $this->_query($sql);
-            $row = $result->fetch_assoc();
+            $row = $this->find('member', 'Username', $data['Name']);
             if ((bool)$row) {
                 return False;
             }
-            // Insert the account
-            $sql = "INSERT INTO admin(";
-            $sql .= implode(',', array_keys($data));
-            $sql .= ") VALUES ('";
-            $sql .= implode("','", array_values($data));
-            $sql .= "')";
+            return $this->create('admin', $data);
         } else if ($type == 'user') {
             // Check if the account already exists
-            $sql = "SELECT * FROM member WHERE Username = '{$data['Username']}'";
-            $result = $this->_query($sql);
-            $row = $result->fetch_assoc();
+            $row = $this->find('member', 'Username', $data['Username']);
             if ((bool)$row) {
                 return False;
             }
             // Check in the admin table
-            $sql = "SELECT * FROM admin WHERE Name = '{$data['Username']}'";
-            $result = $this->_query($sql);
-            $row = $result->fetch_assoc();
+            $row = $this->find('admin', 'Name', $data['Username']);
             if ((bool)$row) {
                 return False;
             }
             // Insert the account
-            $sql = "INSERT INTO member(";
-            $sql .= implode(',', array_keys($data));
-            $sql .= ") VALUES ('";
-            $sql .= implode("','", array_values($data));
-            $sql .= "')";
+            return $this->create('member', $data);
         } else {
-            $sql = "";
+            return False;
         }
-        return $this->_query($sql);
+    }
+
+    public function getUserInfo($id)
+    {
+        return $this->find('member', 'UserID', $id);
     }
 }

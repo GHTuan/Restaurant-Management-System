@@ -22,10 +22,11 @@ switch($_SERVER['REQUEST_METHOD'])
             case 'load':
                 require_once('Model/UserModel.php');
                 $model = new UserModel();
-                $cartItems = $model -> loadCartItems($_SESSION['ID']);
+                $cartItems = $model -> loadCartItems();
+                $address = $model -> getUserAddress();
                 // $cartItems = $model -> loadCartItems(1);
-                echo json_encode(['cartItems' => $cartItems, 'message' => 'Loaded successfully']);
-                break;
+                echo json_encode(['cartItems' => $cartItems, 'address' => $address ,'message' => 'Loaded successfully']);
+                break; 
             case 'update':
                 if (!isset($_POST['productID']) || !isset($_POST['amount']) || !isset($_POST['cartId']))
                 {
@@ -35,16 +36,29 @@ switch($_SERVER['REQUEST_METHOD'])
                 }
                 require_once('Model/UserModel.php');
                 $model = new UserModel();
-                $cartItems = $model -> updateCartItems($_SESSION['ID'], $_POST['productID'], $_POST['amount'], $_POST['cartId']);
+                $cartItems = $model -> updateCartItems($_POST['productID'], $_POST['amount']);
                 // $cartItems = $model -> updateCartItems(1, $_POST['productID'], $_POST['amount'], $_POST['cartId']);
                 echo json_encode(['cartItems' => $cartItems, 'message' => 'Updated successfully']);
                 break;
             case 'clear':
                 require_once('Model/UserModel.php');
                 $model = new UserModel();
-                $cartItems = $model -> clearCart($_SESSION['ID']);
+                $cartItems = $model -> clearCart();
                 // $cartItems = $model -> clearCart(1);
                 echo json_encode(['cartItems' => $cartItems, 'message' => 'Cleared successfully']);
+                break;
+            case 'checkout':
+                if (!isset($_POST['cartID']))
+                {
+                    http_response_code(400);
+                    echo json_encode(['message' => 'CartID is required']);
+                    return;
+                }
+                require_once('Model/UserModel.php');
+                $model = new UserModel();
+                $success = $model -> checkout();
+                // $success = $model -> checkout(1);
+                echo json_encode(['success' => $success, 'message' => 'Checkout successful']);
                 break;
             default:
                 http_response_code(400);
