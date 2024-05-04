@@ -105,6 +105,11 @@ class UserModel extends BaseModel{
         return $this -> cartModel -> loadCartItems($cartID);
     }
 
+    public function addToCartByUser($productID, $amount){
+        $cartID = $this -> cartModel -> getCartId($_SESSION['ID']);
+        return $this -> cartModel -> updateCartItems($productID, $amount, $cartID);
+    }
+
     public function updateCartItems($productID, $amount){
         $cartID = $this -> cartModel -> getCartId($_SESSION['ID']);
         return $this -> cartModel -> updateCartItems($productID, $amount, $cartID);

@@ -60,6 +60,19 @@ switch($_SERVER['REQUEST_METHOD'])
                 // $success = $model -> checkout(1);
                 echo json_encode(['success' => $success, 'message' => 'Checkout successful']);
                 break;
+            case 'addToCart':
+                if (!isset($_POST['productID']) || !isset($_POST['amount']))
+                {
+                    http_response_code(400);
+                    echo json_encode(['message' => 'ProductID and amount are required']);
+                    return;
+                }
+                require_once('Model/UserModel.php');
+                $model = new UserModel();
+                $cartItems = $model -> addToCartByUser($_POST['productID'], $_POST['amount']);
+                // $cartItems = $model -> addToCart(1, $_POST['productID'], $_POST['amount']);
+                echo json_encode(['cartItems' => $cartItems, 'message' => 'Added successfully']);
+                break;
             default:
                 http_response_code(400);
                 echo json_encode(['message' => 'Invalid action']);
