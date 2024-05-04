@@ -105,8 +105,7 @@ class CartModel extends BaseModel
 
             // if the item is not in the cart, insert a new item
             if ($result->num_rows == 0) {
-                $sql = "INSERT INTO cartitem (CartID, ProductID, Amount) VALUES ($cartID, $productID, $amount)";
-                $this->_query($sql);
+                $this -> addToCart($productID,$cartID,$amount);
             } else {
                 // if the item is in the cart, update the amount
                 $sql = "UPDATE cartitem SET Amount = $amount WHERE CartID = $cartID AND ProductID = $productID";
