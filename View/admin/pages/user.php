@@ -20,10 +20,10 @@ require('View/admin/layouts/navbar.php');
 ?>
 
 <body>
-    <div class="container-fluid">
+    <div class="container-fluid mt-3">
         <h1>Accounts Management</h1>
-        <div class="d-flex justify-content-between">
-            <ul class="pagination">
+        <div class="d-flex justify-content-between mt-3">
+            <ul class="pagination m-0">
                 <li class="page-item active" id="user-account"><span class="page-link">User Accounts</span></li>
                 <li class="page-item" id="admin-account"><span class="page-link">Admin Accounts</span></li>
             </ul>
@@ -31,22 +31,23 @@ require('View/admin/layouts/navbar.php');
         </div>
     </div>
 
-    <div class="container-fluid">
+    <div class="container-fluid mt-4">
         <div class="input-group">
             <div class="form-outline" data-mdb-input-init>
                 <input type="search" id="form1" class="form-control" />
             </div>
         </div>
-
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                </tr>
-            </thead>
-            <tbody>
-
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                    </tr>
+                </thead>
+                <tbody>
+    
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div class="modal" id="myModal">
