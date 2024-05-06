@@ -1,3 +1,14 @@
+<?php
+$productPerPage = 4;
+$pageMax = ceil(count($data) / $productPerPage);
+if (!isset($_GET['page'])) $page = 1;
+else {
+    $page = $_GET['page'];
+    if ($page > $pageMax) $page = $pageMax;
+}
+$beginProductIndex = $productPerPage * ($page - 1);
+$endProductIndex = min($productPerPage * $page, count($data)) - 1;
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -200,7 +211,7 @@ body {
 <div class="container bg-white">
 <nav class="navbar navbar-expand-md navbar-light bg-white justify-content-center">
     <div class="container-fluid"> 
-        <button id="new-product-btn" class="navbar-brand text-uppercase fw-800" type="button" class="btn" onclick="populateAddForm()"> Add New Product</button>
+        <button id="new-product-btn" class="navbar-brand text-uppercase fw-800 btn btn-primary" type="button" class="btn" onclick="populateAddForm()"> Add New Product</button>
             <button id="nav-toggler" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#myNav" aria-controls="myNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="fas fa-bars"></span>
             </button>
@@ -223,19 +234,19 @@ body {
     </div>
 </nav>
 <div class="row">
-    <?php foreach ($data as $product) { ?>
+    <?php for ($i = $beginProductIndex; $i <= $endProductIndex; $i++) { ?>
         <div class="col-lg-3 col-sm-6 d-flex flex-column align-items-center justify-content-center product-item my-3">
             <div class="product">
-                <img src="<?php echo $product['Picture']; ?>" alt="<?php echo $product['Name']; ?>">
+                <img src="<?php echo $data[$i]['Picture']; ?>" alt="<?php echo $data[$i]['Name']; ?>">
                 <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
                 <li class="icon mx-3">
-                    <button class="edit-btn" onclick="populateEditForm(<?php echo ($product['ProductID']); ?>, '<?php echo ($product['Name']); ?>', '<?php echo ($product['Type']); ?>', '<?php echo ($product['Price']); ?>', '<?php echo ($product['Description']); ?>', '<?php echo ($product['Picture']); ?>')">
+                    <button class="edit-btn" onclick="populateEditForm(<?php echo ($data[$i]['ProductID']); ?>, '<?php echo ($data[$i]['Name']); ?>', '<?php echo ($data[$i]['Type']); ?>', '<?php echo ($data[$i]['Price']); ?>', '<?php echo ($data[$i]['Description']); ?>', '<?php echo ($data[$i]['Picture']); ?>')">
                         <span class="fas fa-edit"></span>
                     </button>
                 </li>
                 <li class="icon mx-3">
                     <form action="index.php?controller=Product&action=deleteProduct" method="POST">
-                        <input type="hidden" name="productId" value="<?php echo $product['ProductID']; ?>">
+                        <input type="hidden" name="productId" value="<?php echo $data[$i]['ProductID']; ?>">
                         <button type="submit" class="delete-btn" onclick="return confirm('Are you sure you want to delete this product?');">
                             <span class="fas fa-trash-alt"></span>
                         </button>
@@ -243,12 +254,12 @@ body {
                 </li>
                 </ul>
             </div>
-            <?php if(isset($product['Tag']) && !empty($product['Tag'])) { ?>
-                <div class="tag bg-<?php echo $product['Tag']['Color']; ?>"><?php echo $product['Tag']['Text']; ?></div>
+            <?php if(isset($data[$i]['Tag']) && !empty($data[$i]['Tag'])) { ?>
+                <div class="tag bg-<?php echo $data[$i]['Tag']['Color']; ?>"><?php echo $data[$i]['Tag']['Text']; ?></div>
             <?php } ?>
-            <div class="title pt-4 pb-1 fs-5"><?php echo $product['Name']; ?></div>
+            <div class="title pt-4 pb-1 fs-5"><?php echo $data[$i]['Name']; ?></div>
             <div class="d-flex align-content-center justify-content-center"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> </div>
-            <div class="price fs-5"><?php echo $product['Price']; ?> VND</div>
+            <div class="price fs-5"><?php echo $data[$i]['Price']; ?> VND</div>
         </div>
     <?php } ?>
 </div>
@@ -311,21 +322,32 @@ body {
     </form>
 </div>
 
-    <nav aria-label="Page navigation">
-        <ul class="pagination justify-content-center mt-4">
-            <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-            </li>
-            <li class="page-item active" aria-current="page">
-                <a class="page-link" href="#">1 <span class="visually-hidden">(current)</span></a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#">Next</a>
-            </li>
-        </ul>
-    </nav>
+<nav aria-label="Page navigation" class="pb-2">
+            <ul class="pagination justify-content-center mt-4">
+                <?php
+                if ($page > 1) {
+                    echo '<li class="page-item"><a class="page-link" href="?controller=product&page=' . ($page - 1) . '">Previous</a></li>';
+                } else {
+                    echo '<li class="page-item disabled" style="cursor: not-allowed"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a></li>';
+                }
+                for ($i = 1; $i <= min($pageMax, 3); $i++)
+                {
+                    // Range: ($i, $pageMax - 3 + $i)
+                    $pageNum = $page - 2 + $i;
+                    $pageNum = max($i, $pageNum);
+                    $pageNum = min($pageNum, $pageMax - 3 + $i);
+                    $isActive = $pageNum == $page ? 'active' : '';
+                    echo '<li class="page-item '.$isActive.'"><a class="page-link" href="?controller=product&page=' . $pageNum . '">' . $pageNum . '</a></li>';
+
+                }
+                if ($page < $pageMax) {
+                    echo '<li class="page-item"><a class="page-link" href="?controller=product&page=' . ($page + 1) . '">Next</a></li>';
+                } else {
+                    echo '<li class="page-item disabled" style="cursor: not-allowed;"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a></li>';
+                }
+                ?>
+            </ul>
+        </nav>
 
 </div>
 <script>
