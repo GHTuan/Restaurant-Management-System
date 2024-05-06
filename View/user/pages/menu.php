@@ -1,3 +1,14 @@
+<?php
+$productPerPage = 4;
+$pageMax = ceil(count($data) / $productPerPage);
+if (!isset($_GET['page'])) $page = 1;
+else {
+    $page = $_GET['page'];
+    if ($page > $pageMax) $page = $pageMax;
+}
+$beginProductIndex = $productPerPage * ($page - 1);
+$endProductIndex = min($productPerPage * $page, count($data)) - 1;
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -152,17 +163,20 @@
             color: #fff
         }
 
-        #productImg, #productImg2 {
+        #productImg,
+        #productImg2 {
             margin-right: 20px;
         }
 
-        #productImg img, #productImg2 img{
+        #productImg img,
+        #productImg2 img {
             width: 200px;
             height: 200px;
             object-fit: cover;
         }
 
-        #productInfo span:first-of-type, #productInfo2 span:first-of-type {
+        #productInfo span:first-of-type,
+        #productInfo2 span:first-of-type {
             font-weight: bold;
         }
 
@@ -217,40 +231,49 @@
             </div>
         </nav>
         <div class="row">
-            <?php foreach ($data as $product) { ?>
+            <?php for ($i = $beginProductIndex; $i <= $endProductIndex; $i++) { ?>
                 <div class="col-lg-3 col-sm-6 d-flex flex-column align-items-center justify-content-center product-item my-3">
                     <div class="product">
-                        <img src="<?php echo $product['Picture']; ?>" alt="<?php echo $product['Name']; ?>">
+                        <img src="<?php echo $data[$i]['Picture']; ?>" alt="<?php echo $data[$i]['Name']; ?>">
                         <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
-                            <li class="icon" onclick="showProduct(<?php echo $product['ProductID'] ?>)"><span class="fas fa-expand-arrows-alt"></span></li>
+                            <li class="icon" onclick="showProduct(<?php echo $data[$i]['ProductID'] ?>)"><span class="fas fa-expand-arrows-alt"></span></li>
                             <li class="icon mx-3"><span class="far fa-heart"></span></li>
-                            <li class="icon" onclick="addToCart(<?php echo $product['ProductID'] ?>)"><span class="fas fa-shopping-bag"></span></li>
+                            <li class="icon" onclick="addToCart(<?php echo $data[$i]['ProductID'] ?>)"><span class="fas fa-shopping-bag"></span></li>
                         </ul>
                     </div>
-                    <?php if (isset($product['Tag']) && !empty($product['Tag'])) { ?>
-                        <div class="tag bg-<?php echo $product['Tag']['Color']; ?>"><?php echo $product['Tag']['Text']; ?></div>
+                    <?php if (isset($data[$i]['Tag']) && !empty($data[$i]['Tag'])) { ?>
+                        <div class="tag bg-<?php echo $data[$i]['Tag']['Color']; ?>"><?php echo $data[$i]['Tag']['Text']; ?></div>
                     <?php } ?>
-                    <div class="title pt-4 pb-1 fs-5"><?php echo $product['Name']; ?></div>
+                    <div class="title pt-4 pb-1 fs-5"><?php echo $data[$i]['Name']; ?></div>
                     <div class="d-flex align-content-center justify-content-center"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> </div>
-                    <div class="price fs-5"><?php echo $product['Price']; ?> USD</div>
-                    <button class="btn btn-primary mt-3" onclick="addToCart(<?php echo $product['ProductID'] ?>)">Mua ngay</button>
+                    <div class="price fs-5"><?php echo $data[$i]['Price']; ?> USD</div>
+                    <button class="btn btn-primary mt-3" onclick="addToCart(<?php echo $data[$i]['ProductID'] ?>)">Mua ngay</button>
                 </div>
             <?php } ?>
         </div>
 
-        <nav aria-label="Page navigation">
+        <nav aria-label="Page navigation" class="pb-2">
             <ul class="pagination justify-content-center mt-4">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                </li>
-                <li class="page-item active" aria-current="page">
-                    <a class="page-link" href="#">1 <span class="visually-hidden">(current)</span></a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">Next</a>
-                </li>
+                <?php
+                if ($page > 1) {
+                    echo '<li class="page-item"><a class="page-link" href="?controller=menu&page=' . ($page - 1) . '">Previous</a></li>';
+                } else {
+                    echo '<li class="page-item disabled" style="cursor: not-allowed"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a></li>';
+                }
+                for ($i = 1; $i <= min($pageMax, 3); $i++) {
+                    // Range: ($i, $pageMax - 3 + $i)
+                    $pageNum = $page - 2 + $i;
+                    $pageNum = max($i, $pageNum);
+                    $pageNum = min($pageNum, $pageMax - 3 + $i);
+                    $isActive = $pageNum == $page ? 'active' : '';
+                    echo '<li class="page-item ' . $isActive . '"><a class="page-link" href="?controller=menu&page=' . $pageNum . '">' . $pageNum . '</a></li>';
+                }
+                if ($page < $pageMax) {
+                    echo '<li class="page-item"><a class="page-link" href="?controller=menu&page=' . ($page + 1) . '">Next</a></li>';
+                } else {
+                    echo '<li class="page-item disabled" style="cursor: not-allowed;"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a></li>';
+                }
+                ?>
             </ul>
         </nav>
 
@@ -442,7 +465,7 @@
             $('#myModal2').modal('show');
         }
 
-        function addToCartConfirm() {  
+        function addToCartConfirm() {
             const amount = $('#amount').val();
             console.log('Adding ' + amount + ' of product with ID: ' + selectedProduct.ProductID + ' to cart');
             const dataSend = {
