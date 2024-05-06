@@ -29,7 +29,7 @@
             </button>
         </div>
     </div>
-    <div style="
+    <div id="header-2" style="
         display: flex;
         align-items: center;
         background-color: pink;

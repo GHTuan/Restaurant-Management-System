@@ -4,6 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=, initial-scale=1.0">
     <title>Home</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            max-width: 100%;
+        }
+        img{
+            object-fit: cover;
+        }
+
+        @media screen and (max-width: 600px) {
+            #header-2{
+                display: none !important;
+            }            
+        }
+    </style>
 </head>
 <?php
     require ('View/user/layouts/navbar.php'); 
