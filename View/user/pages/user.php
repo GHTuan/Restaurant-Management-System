@@ -7,7 +7,7 @@
 </head>
 <?php
     require ('View/user/layouts/navbar.php'); 
-    print_r($data)
+    // print_r($data)
 ?>
 <body>
 <div class="container mt-5 pt-5">
