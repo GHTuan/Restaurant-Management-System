@@ -469,6 +469,10 @@ $endProductIndex = min($productPerPage * $page, count($data)) - 1;
 
         function addToCartConfirm() {
             const amount = $('#amount').val();
+            if (amount <= 0) {
+                alert('Amount must be greater than 0');
+                return;
+            }
             console.log('Adding ' + amount + ' of product with ID: ' + selectedProduct.ProductID + ' to cart');
             const dataSend = {
                 api: 'cart',
