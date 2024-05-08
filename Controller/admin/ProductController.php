@@ -19,7 +19,6 @@ class ProductController extends BaseController{
 
     public function deleteProduct(){
         if(isset($_POST['productId'])) {
-            die($_POST['productId']);
             $productId = $_POST['productId'];
             $data = $this->productModel->deleteProduct($productId);
             header("Location: index.php?controller=product&action=index");
