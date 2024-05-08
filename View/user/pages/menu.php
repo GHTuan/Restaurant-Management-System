@@ -216,11 +216,11 @@ $endProductIndex = min($productPerPage * $page, count($data)) - 1;
                 </button>
                 <div class="collapse navbar-collapse justify-content-center" id="myNav">
                     <div class="navbar-nav">
-                        <a id="Tất cả" class="nav-link active fs-5" aria-current="page" href="#">Tất cả</a>
-                        <a id="Cơm" class="nav-link fs-5" href="#">Cơm</a>
-                        <a id="Bún" class="nav-link fs-5" href="#">Bún</a>
-                        <a id="Lẩu" class="nav-link fs-5" href="#">Lẩu</a>
-                        <a id="Nước" class="nav-link fs-5" href="#">Nước uống</a>
+                    <a id="Tất cả" class="nav-link active fs-5" aria-current="page" href="#">All</a> 
+                    <a id="MainDish" class="nav-link fs-5" href="#">Main Dish</a> 
+                    <a id="Breakfast" class="nav-link fs-5" href="#">Breakfast</a> 
+                    <a id="Desert" class="nav-link fs-5" href="#">Dessert</a> 
+                    <a id="Drink" class="nav-link fs-5" href="#">Drink</a>
                         <!-- Add the search form -->
                     </div>
                 </div>
@@ -373,14 +373,15 @@ $endProductIndex = min($productPerPage * $page, count($data)) - 1;
                         <div class="product">
                             <img src="${product.Picture}" alt="${product.Name}">
                             <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
-                                <li class="icon"><span class="fas fa-edit"></span></li>
-                                <li class="icon mx-3"><span class="fas fa-trash-alt"></span></li>
+                                <li class="icon" onclick="showProduct(<?php echo $data[$i]['ProductID'] ?>)"><span class="fas fa-expand-arrows-alt"></span></li>
+                                <li class="icon mx-3"><span class="far fa-heart"></span></li>
+                                <li class="icon" onclick="addToCart(<?php echo $data[$i]['ProductID'] ?>)"><span class="fas fa-shopping-bag"></span></li>
                             </ul>
                         </div>
                         ${product.Tag && !empty(product.Tag) ? `<div class="tag bg-${product.Tag.Color}">${product.Tag.Text}</div>` : ''}
                         <div class="title pt-4 pb-1 fs-5">${product.Name}</div>
                         <div class="d-flex align-content-center justify-content-center"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> </div>
-                        <div class="price fs-5">${product.Price} VND</div>
+                        <div class="price fs-5">${product.Price} USD</div>
                     </div>
                 `;
                     document.querySelector('.row').insertAdjacentHTML('beforeend', productHTML);
@@ -414,14 +415,15 @@ $endProductIndex = min($productPerPage * $page, count($data)) - 1;
                     <div class="product">
                         <img src="${product.Picture}" alt="${product.Name}">
                         <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
-                            <li class="icon"><span class="fas fa-edit"></span></li>
-                            <li class="icon mx-3"><span class="fas fa-trash-alt"></span></li>
+                            <li class="icon" onclick="showProduct(<?php echo $data[$i]['ProductID'] ?>)"><span class="fas fa-expand-arrows-alt"></span></li>
+                            <li class="icon mx-3"><span class="far fa-heart"></span></li>
+                            <li class="icon" onclick="addToCart(<?php echo $data[$i]['ProductID'] ?>)"><span class="fas fa-shopping-bag"></span></li>
                         </ul>
                     </div>
                     ${product.Tag && !empty(product.Tag) ? `<div class="tag bg-${product.Tag.Color}">${product.Tag.Text}</div>` : ''}
                     <div class="title pt-4 pb-1 fs-5">${product.Name}</div>
                     <div class="d-flex align-content-center justify-content-center"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> </div>
-                    <div class="price fs-5">${product.Price} VND</div>
+                    <div class="price fs-5">${product.Price} USD</div>
                 </div>
             `;
                 productsContainer.insertAdjacentHTML('beforeend', productHTML);
