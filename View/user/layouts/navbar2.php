@@ -84,9 +84,9 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="index.php?controller=user"><i class="fa-solid fa-gear"></i> Setting</a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="index.php?controller=product"><i class="fa-solid fa-gear"></i> Product Sample</a>
-          </li>
+          </li> -->
 
         </ul>
       </div>

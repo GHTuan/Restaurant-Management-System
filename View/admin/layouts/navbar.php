@@ -63,9 +63,9 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="index.php?controller=product"><i class="fa-solid fa-utensils"></i> Product</a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="index.php?controller=admin"><i class="fa-solid fa-cart-shopping"></i> Admin</a>
-          </li>
+          </li> -->
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="index.php?controller=cart"><i class="fa-solid fa-cart-shopping"></i> Cart</a>
           </li>

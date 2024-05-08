@@ -3,8 +3,7 @@
     $Action_Access= ["index","login","register"];
 
     if (!in_array(ucfirst($_GET['controller']),$Controller_Access)){
-        echo "Access Denied! You are not eligible to access this.";
-        die();
+        header('Location:index.php?controller=login');
     }
     $controller = ucfirst($_GET['controller']) . 'Controller';
 
@@ -14,8 +13,7 @@
 
     $actionName = $_REQUEST['action'] ?? 'index';
     if (!in_array($actionName,$Action_Access)){
-        echo "Access Denied! You are not eligible to access this.";
-        die();
+        header('Location:index.php?controller=login');
     }
     $request = new $controller; /*khởi tạo một class controller tương ứng với biến $controller*/
 
